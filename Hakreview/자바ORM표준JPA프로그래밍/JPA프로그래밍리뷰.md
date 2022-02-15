@@ -1,3 +1,5 @@
+
+
 # 자바 ORM표준 JPA 프로그래밍
 
 **Q1 : Mybatis와 어떤 차이가 있는지?** 
@@ -36,11 +38,6 @@ persist()시점에는 영속성 컨텍스트에 저장한다. DB저장은 이후
 ![image](https://user-images.githubusercontent.com/43670838/153012338-0759f451-9e2a-47f6-aa72-e2afb85b7401.png)
 
 - 비영속
-
 - 영속
-
 - 준영속
-
 - 삭제
-
-  
