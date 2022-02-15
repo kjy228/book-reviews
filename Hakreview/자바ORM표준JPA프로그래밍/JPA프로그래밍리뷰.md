@@ -38,6 +38,28 @@ persist()시점에는 영속성 컨텍스트에 저장한다. DB저장은 이후
 ![image](https://user-images.githubusercontent.com/43670838/153012338-0759f451-9e2a-47f6-aa72-e2afb85b7401.png)
 
 - 비영속
+  엔티티 객체를 생성하고 순수한 객체 상태이며 아직 저장하지 않은 상태를 말한다. 
+
+  ```java
+  @Test(expected = IllegalStateException.class)
+  public void 중복_회원_예외()throws Exception{
+      Member mr1 = new Member();
+      mr1.setName("Lee1");
+      Member mr2 = new Member();
+      mr1.setName("Lee1");
+  ```
+
 - 영속
+  em.persist(item);
+  EntityManager를 통해서 엔티티를 영속성 컨텍스트에 저장하여 관리하는 엔티티를 영속상태라고 말한다. 
+
 - 준영속
+  em.detach(), em.close(), em.clear
+  EntityManaber가 관리하던 영속사태의 엔티티를 영속성 컨텍스트가 관리하지 앟는 상태 
+
 - 삭제
+  em.remove(member)
+  데이터베이스와 캐시에서 삭제 
+
+1차캐시에 저장될때 @Id, Entity의 Map형태로 저장되며 값은 "member1", memberEntity가된다. 
+merge : 준영속 상태에서 다시 영속상태로 변경 
