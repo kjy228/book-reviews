@@ -230,3 +230,41 @@ JPA는 데이터베이스 스키마를 자동으로 생성ㅇ하는 기능을 �
 | validate    | 데이터베이스 테이블과 엔티티 매핑정보를 비교해서 차이가 잇으면 경고를 남기고 애필르케이션을 실행하지 않는다. 이설정은 DDL을 수정 x |
 | none        | 자동 새성기능을 사용하지 않으려면 속성자체를 삭제하거나 유효하지 안ㅇ흔 옵션값을 주면된다. ( none은 유효하지 않은 옵션값) |
 
+
+
+## DDL생성기능
+
+@Column 매핑정보의 nullable속성값을 false로 지정하면 자동생성되는 DDL에 not null 제약조건을 추가할 수 있다. 그리고 length속성값을 사용하면 자동 생ㅅ어되는 DDL에 문자의 크기를 지정할 수 있다. 
+
+```java
+@Entity(name ="Member")
+@Table(name="MEMBER", uniqueConstraints={@UniqueConstraint(
+	name = "NAME_AGE_UNIQUE",
+	columNames = {"NAME", "AGE"} )})
+	public class Member{
+	@Id
+	@Column(name = "id")
+	private String id; 
+	@Column(name = "name")
+	private String username;
+	
+	private Integer age;
+	
+	}
+
+```
+
+
+
+```mysql
+// 결과
+ALTER TABLE MEMBER
+	ADD CONSTRAINT NAME_AGE_UNIQUE UNIQUE(NAME,AGE)
+```
+
+이런 기능은 DDL을 자동 생성할 때만 사용되고 JPA의 실행 로직에는 영향을 주지않는다. 따라서 스키마 자동 생성 기능을 사용하지 않고 직접 DDL을 만든다면 사용할 이유가 없다. 그래도 기능을 사용하면 애플리케이션 개발자가 엔티티만 보곧 쉽게 다양한 제약조건을 파악할 수 있는 장점이 있다. 
+
+JPA에서는 이처럼 애플리케이션의 실행 동작에는 영얗을 주지 않지만 자동 생성되는 DD을 위한 기능들도 있다. 
+
+
+
