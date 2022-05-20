@@ -67,3 +67,8 @@ name - 매핑할 테이블 이름
 catalog - catalog 기능이 있는 데이터베이스에서 catalog를 매핑
 schema - schema 기능이 있는 데이터베이스에서 schema를 매핑 
 uniqueConstraints - DDL 생성 시에 유니크 제약조건을 만듬, 2개 이상의 복합 유니크 제약조건도 만들 수 있음 참고로 이기능은 스키마 자동 생성기능을 사용해서 DDL을 만들                       때만 사용됨
+
+hibernate.hbm2ddl.auto 속성 정리
+
+create : 기존 테이블을 삭제하고 새로 생성 (DROP + CREATE)
+create-drop : create 속성에 추가로 애플리케이션을 종료할 때 생성한 DDL을 제거함 (DROP + CREATE + DROP)
