@@ -11,3 +11,10 @@ Loosly coupling , High cohension
 
 ### Tactical Design
 
+
+
+## JPA가 지원하는 다양한 쿼리 방법
+ - JPQL
+ - JPA Criteria
+ - QueryDSL
+ - 
