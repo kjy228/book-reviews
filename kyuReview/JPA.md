@@ -81,3 +81,14 @@ allocationSize : 시퀀스 한 번 호출에 증가하는 수(성능 최적화�
 catalog, schema : 데이터베이스 catalog, schema 이름
 
 
+@TableGenerator 
+name : 식별자 생성기 이름 
+table : 키생성 테이블명
+pkColumnName : 시퀀스 컬럼명 
+valueColumnName : 시퀀스 값 컬럼명 
+pkColumnValue : 키로 사용할 값 이름 
+initialValue : 키로 사용할 값 이름 
+allocationSiz : 초기 값, 마지막으로 생성된 값이 기준 
+catalog, schema : 시퀀스 한번 호출에 증가하는수(성능 최적화에 사용)
+uniqueConstraints(DDL) : 유니크 제약 조건을 지정할 수 있음.
+
