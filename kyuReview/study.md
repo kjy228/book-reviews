@@ -32,3 +32,15 @@ Code, Data, Stack, Heap의 구조로 되어 있는 독립된 메모리 영역
 프로세스의 특정한 수행 경로
 프로세스가 할당받은 자원을 이용하는 실행의 단위
 
+
+6월 8일 스터디 
+
+https://www.daleseo.com/java9-immutable-collections/
+
+
+영속화 개념 정리를 다시해야할듯
+
+@entitygraph
+
+4. 
+
