@@ -17,8 +17,9 @@ primitive(기본타입) :
 -> 기본타입을 제외한 위 3가지 값들은 객체(object)임 
 
 클래스의 멤버
+http://wiki.hash.kr/index.php/%ED%95%84%EB%93%9C_(%EC%9E%90%EB%B0%94)
 
-field(필드) : 
+field(필드) : 필드란 클래스를 구성하는 요소 중 하나로 클래스 내부 멤버
 
 method(메소드) : 
 
