@@ -42,5 +42,18 @@ https://www.daleseo.com/java9-immutable-collections/
 
 @entitygraph
 
-4. 
+
+
+6월 15일 스터디
+[이명학] [오후 8:03] https://www.baeldung.com/spring-data-jpa-projections
+[이명학] [오후 8:13] https://meetup.toast.com/posts/87
+[이명학] [오후 8:35] https://www.devkuma.com/docs/junit/private-method-test/ Method 클래스
+[이명학] [오후 8:36] https://ykh6242.tistory.com/102
+@InjectMock 내가 테스트하고자 하는 클래스는 해당 어노테이션
+@Mock 관련 클래스는 가짜처리
+TDD 관련
+
+
+
+
 
