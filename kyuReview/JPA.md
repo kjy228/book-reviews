@@ -50,3 +50,45 @@ persist는 엔티티 매니저를 사용해서 회원 엔티티를 영속성 컨
 준영속 : 영속성 컨텍스트에 저장되었다가 분리된 상태 
 삭제 : 삭제된 상태
 
+4장
+*************************************
+객체와 테이블 매핑 : @Entity, @Table
+기본 키 매핑 : @Id 
+필드와 컬럼 매핑 : @Column
+연관관계 매핑 : @ManyToOne, @JoinColumn
+
+
+@Entity 관련 속성 
+name - JPA에서 사용할 엔티티 이름을 지정, 보통 기본값인 클래스 이름을 사용함. 만약 다른 패키지에 이름이 같은 엔티티 클래스가 존재하면 이름을 지정해서 
+       충돌하지 않도록 지정해야함
+       
+@Table 관련 속성 
+name - 매핑할 테이블 이름 
+catalog - catalog 기능이 있는 데이터베이스에서 catalog를 매핑
+schema - schema 기능이 있는 데이터베이스에서 schema를 매핑 
+uniqueConstraints - DDL 생성 시에 유니크 제약조건을 만듬, 2개 이상의 복합 유니크 제약조건도 만들 수 있음 참고로 이기능은 스키마 자동 생성기능을 사용해서 DDL을 만들                       때만 사용됨
+
+hibernate.hbm2ddl.auto 속성 정리
+
+create : 기존 테이블을 삭제하고 새로 생성 (DROP + CREATE)
+create-drop : create 속성에 추가로 애플리케이션을 종료할 때 생성한 DDL을 제거함 (DROP + CREATE + DROP)
+
+@SequenceGenerator 
+name : 식별자 생성기 이름 
+sequenceName : 데이터베이스에 등록되어 있는 시퀀스 이름 
+initialValue : DDL 생성 시에만 사용됨, 시퀀스 DDL을 생성할 때 처음 시작하는 수를 지정함 
+allocationSize : 시퀀스 한 번 호출에 증가하는 수(성능 최적화에 사용됨)
+catalog, schema : 데이터베이스 catalog, schema 이름
+
+
+@TableGenerator 
+name : 식별자 생성기 이름 
+table : 키생성 테이블명
+pkColumnName : 시퀀스 컬럼명 
+valueColumnName : 시퀀스 값 컬럼명 
+pkColumnValue : 키로 사용할 값 이름 
+initialValue : 키로 사용할 값 이름 
+allocationSiz : 초기 값, 마지막으로 생성된 값이 기준 
+catalog, schema : 시퀀스 한번 호출에 증가하는수(성능 최적화에 사용)
+uniqueConstraints(DDL) : 유니크 제약 조건을 지정할 수 있음.
+
