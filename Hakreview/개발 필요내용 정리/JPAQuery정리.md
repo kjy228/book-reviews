@@ -30,3 +30,5 @@ select m from Member m where m.name = :name //이름기반
 ```
 **중요**
 ### Collection Binding
+Collection 으로 쿼리 결과를 받을때 결과가 없다면 Spring Data Jpa는 size가 0인 빈 컬렉션을 반환하게된다
+하지만 단건 조회할때는 null로 결과를 돌려주게된다 
