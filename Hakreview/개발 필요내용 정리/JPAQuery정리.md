@@ -31,4 +31,17 @@ select m from Member m where m.name = :name //이름기반
 **중요**
 ### Collection Binding
 Collection 으로 쿼리 결과를 받을때 결과가 없다면 Spring Data Jpa는 size가 0인 빈 컬렉션을 반환하게된다
-하지만 단건 조회할때는 null로 결과를 돌려주게된다 
+하지만 단건 조회할때는 null로 결과를 돌려주게된다 .
+
+
+## spring date JPA 의 paging, sorting
+spring data jpa는 페이지를 0부터 시작한다.
+
+### 페이징과 정렬 파라미터
+- `org.springframework.data.domain.Sort` : 정렬기능 
+- `org.springframework.data.domain.Pageable`: 페이징 기능 ( 내부에 sort 포함)
+
+### 그 외 반환 타입
+- `org.springframework.data.domain.Page`: 추가 count 쿼리 결과를 포함하는 페이징
+- `org.springframework.data.domain.Slice`: count쿼리 없이 다음 페이지만 확인가능 ( 내부적으로 limit +1 조회)
+- 
