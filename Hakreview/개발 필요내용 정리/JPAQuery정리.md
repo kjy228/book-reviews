@@ -35,6 +35,7 @@ Collection 으로 쿼리 결과를 받을때 결과가 없다면 Spring Data Jpa
 
 
 ## spring date JPA 의 paging, sorting
+spring data jpa는 페이지를 0부터 시작한다.
 
 ### 페이징과 정렬 파라미터
 - `org.springframework.data.domain.Sort` : 정렬기능 
