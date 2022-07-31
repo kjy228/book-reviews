@@ -44,4 +44,21 @@ spring data jpa는 페이지를 0부터 시작한다.
 ### 그 외 반환 타입
 - `org.springframework.data.domain.Page`: 추가 count 쿼리 결과를 포함하는 페이징
 - `org.springframework.data.domain.Slice`: count쿼리 없이 다음 페이지만 확인가능 ( 내부적으로 limit +1 조회)
-- 
+
+
+### page query 꿀팁
+paging 쿼리시 count작업은 서버에 부하가 많이 걸리게되어 따로 countQuery를 날리는게 좋다
+
+```java
+ @Query(value = "select m from Member m left join m.team t",
+            countQuery = "select count (m.username) from Member m")
+    Page<Member> findByAge(int age, Pageable pageable);
+```
+
+### page type -> dto 변환시
+```java
+Page<Member> page = memeberRepository.findByAge(age, pageRequest);
+Page<MemberDto> toMap = page.map(member => new MamberDto(member.getId()
+                                , member.getUserName(), null));
+```
+
