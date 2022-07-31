@@ -66,7 +66,7 @@ Page<MemberDto> toMap = page.map(member => new MamberDto(member.getId()
 ```java
 //repository code
 @Modifying
-@Query(value = "update Member m set m.age = m.age + 1 where m.age ")
+@Query(value = "update Member m set m.age = m.age + 1 where m.age >= :age ")
     Page<Member> findByAge(int age, Pageable pageable);
 
 ```
@@ -87,3 +87,5 @@ void bulkUpdate(){
 
 }
 ```
+bulk update는 db에 바로 접근하는것이기 때문에 영속성이 관리하는 캐시에잇는객체를 업데이트 하지 않는다 
+따라서 영속상태를 끊고 재조회 해야 업데이트된 결과를 얻을 수 있다.
