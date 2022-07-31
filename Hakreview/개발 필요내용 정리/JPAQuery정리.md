@@ -62,3 +62,28 @@ Page<MemberDto> toMap = page.map(member => new MamberDto(member.getId()
                                 , member.getUserName(), null));
 ```
 
+## 벌크연산
+```java
+//repository code
+@Modifying
+@Query(value = "update Member m set m.age = m.age + 1 where m.age ")
+    Page<Member> findByAge(int age, Pageable pageable);
+
+```
+```java
+@Test
+void bulkUpdate(){
+    //given
+    memberRepository.save(new Member("mem1", 10));
+    memberRepository.save(new Member("mem2", 11));
+    memberRepository.save(new Member("mem3", 12));
+
+    //when
+    int resultcnt = memeberRepository.bulkAgePlus(10);
+    memeberRepository.findById("mem1");
+
+    //then
+    assertThat(resultcnt).isEqualTo(3)
+
+}
+```
