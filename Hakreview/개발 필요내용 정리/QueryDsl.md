@@ -54,3 +54,37 @@ QueryDsl 사용법
                 
     }
     ```
+
+    ## Join
+    조인의 기본 문법은 첫번쨰 파람미터에 조인 대상을 지정하고, 두번 쨰 파라ㅏ미어테 별칭으로 사용할 Q타입을 지정하면 된다. 
+    ```java
+     @Test
+    void join(){
+        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+        List<Member> result = queryFactory
+                .selectFrom(member)
+                .join(member.team, team)
+                .where(team.name.eq("teamA"))
+                .fetch();
+
+        assertThat(result)
+                .extracting("username")
+                .containsExactly("member1", "member2");
+
+    }
+
+    @Test
+    void leftJoin(){
+        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+        List<Member> result = queryFactory
+                .selectFrom(member)
+                .leftJoin(member.team, team)
+                .where(team.name.eq("teamA"))
+                .fetch();
+
+        assertThat(result)
+                .extracting("username")
+                .containsExactly("member1", "member2");
+
+    }```
+    
