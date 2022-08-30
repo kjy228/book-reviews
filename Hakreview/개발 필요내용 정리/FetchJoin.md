@@ -29,4 +29,5 @@ JPA 일반적으로 연관관계를 맺은 엔티티를 조회할때 Lazy Loadin
     }
 ```
 이 부분은 나도 간과했던 부분으로 17번쨰 라인 `private List<OrderItemDto> orderItems;` 을 보면 orderItem도 dto로 감싼것을 볼 수 있다 . 내일 출근하자마자 바꾸는걸로.....
-
+dto로 감싸면 N+1문제가 발생할 수 있다
+이를 해결하기위해 나온것이 fetch join이다.
