@@ -31,3 +31,17 @@ JPA 일반적으로 연관관계를 맺은 엔티티를 조회할때 Lazy Loadin
 이 부분은 나도 간과했던 부분으로 17번쨰 라인 `private List<OrderItemDto> orderItems;` 을 보면 orderItem도 dto로 감싼것을 볼 수 있다 . 내일 출근하자마자 바꾸는걸로.....
 dto로 감싸면 N+1문제가 발생할 수 있다
 이를 해결하기위해 나온것이 fetch join이다.
+
+## fetch join
+- 회원을 조회하면서 연관된 팀도 함께 조회 -> N+1 문제 해결 가능
+
+``` java
+// JPQL
+select m from Member m join fetch m.team
+
+//실제 SQL
+select M.*, T.* from member M 
+inner join team t on M.team_id = T.id;
+
+```
+마치 즉시 로딩처렁 팀과 멤버의 모든정보를 조회해서 ( default 는 inner join ) 1차 캐시에 보관한다.
