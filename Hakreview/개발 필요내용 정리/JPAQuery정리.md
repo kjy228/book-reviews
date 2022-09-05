@@ -90,3 +90,13 @@ void bulkUpdate(){
 bulk update는 db에 바로 접근하는것이기 때문에 영속성이 관리하는 캐시에잇는객체를 업데이트 하지 않는다 
 따라서 영속상태를 끊고 재조회 해야 업데이트된 결과를 얻을 수 있다.
 -> 해결하기 위해 `entityManager.flush()`사용
+
+### Join
+
+
+-----
+
+
+application-dev.properties
+
+application-통시.properties 
