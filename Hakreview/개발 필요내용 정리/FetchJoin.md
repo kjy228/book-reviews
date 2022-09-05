@@ -45,3 +45,6 @@ inner join team t on M.team_id = T.id;
 
 ```
 마치 즉시 로딩처렁 팀과 멤버의 모든정보를 조회해서 ( default 는 inner join ) 1차 캐시에 보관한다.
+
+## 컬렉션 페치조인
+- OneToMany관계일때 사용하며 컬렉션 페치 조인이라고한다. 
