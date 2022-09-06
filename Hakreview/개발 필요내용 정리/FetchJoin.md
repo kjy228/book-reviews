@@ -47,4 +47,23 @@ inner join team t on M.team_id = T.id;
 마치 즉시 로딩처렁 팀과 멤버의 모든정보를 조회해서 ( default 는 inner join ) 1차 캐시에 보관한다.
 
 ## 컬렉션 페치조인
-- OneToMany관계일때 사용하며 컬렉션 페치 조인이라고한다. 
+- OneToMany관계일때 사용하며 컬렉션 페치 조인이라고한다. DB 입장에서 oneTomany 조인을 하게되면 데이터가 뻥튀기가 된다..
+``` sql
+// JPQL
+select t
+from Team t join fetch t.members
+where t.name = '팀A';
+
+//실제 SQL
+select T.*, M.*
+from Team T
+inner join member M on T.id = M.team_id
+where T.name = '팀A';
+```
+이렇게 JPQL을 작성하게되면 데이터가 뻥튀기 되게 된다. 
+예를 들어 
+team기준으로 조회 하여 '팀A에 속하는 멤버들을 출력하라' 라는 쿼리를 작성할때 멤버수만큼 조회가 되는것이다. 
+이를 막기위해 fetch join과 distinct를 같이 사용하면 중복 된결과를 제거할 수 있다. 
+- sql에 distinct 추가
+- 애플리케이션에서 엔티티 중복 제거 
+하는 방법을 사용하면된다. 
