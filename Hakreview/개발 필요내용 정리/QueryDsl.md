@@ -86,7 +86,8 @@ QueryDsl 사용법
                 .extracting("username")
                 .containsExactly("member1", "member2");
 
-    }````
+    }
+    ````
     
     
     ```java
@@ -104,7 +105,8 @@ QueryDsl 사용법
         assertThat(result)
             .extracting("username")
             .containsExactly("teamA", "teamB");
-   }````
+   }
+   ````
    
    - from절에 여러 엔티티를 선택해서 세타조인
    - 외부조인 불가능 -> 조인on을 사용하면 외부 조인 가능
@@ -144,13 +146,15 @@ QueryDsl 사용법
             System.out.println("tuple : " + t);
         }
     }
-    ````
+````
 - hibernate 5.1부터 `on` 을 사용해서 서로 관게 없는 필드로 외부조인하는 기능 추가됨(내부조인도 가능)
 - 문법을 잘 봐야함 `leftJoin()`부분에 일반 조이노가 다르게 엔티티 하나만 들어감
     - 일반 조인 : `leftJoin(member.team, team)`
     - on 조인 : `from(member).leftJoin(team).on(xxx)``
 
 
+## fetch join
+페치 조인은 sql에서 제공하는 기능은 아니다. sql조인을 활용해서 연관된 엔티티를 sql한번에 조회하는 기능이다. 주로 성능 최적화에 쓰인다
 
         
     
