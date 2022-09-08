@@ -53,7 +53,7 @@ QueryDsl 사용법
         results.getLimit();
                 
     }
-    ```
+    ````
 
     ## Join
     조인의 기본 문법은 첫번쨰 파람미터에 조인 대상을 지정하고, 두번 쨰 파라ㅏ미어테 별칭으로 사용할 Q타입을 지정하면 된다. 
@@ -86,7 +86,8 @@ QueryDsl 사용법
                 .extracting("username")
                 .containsExactly("member1", "member2");
 
-    }```
+    }````
+    
     
     ```java
     @Test
@@ -103,7 +104,8 @@ QueryDsl 사용법
         assertThat(result)
             .extracting("username")
             .containsExactly("teamA", "teamB");
-   }```
+   }````
+   
    - from절에 여러 엔티티를 선택해서 세타조인
    - 외부조인 불가능 -> 조인on을 사용하면 외부 조인 가능
    
@@ -142,7 +144,7 @@ QueryDsl 사용법
             System.out.println("tuple : " + t);
         }
     }
-    ```
+    ````
 - hibernate 5.1부터 `on` 을 사용해서 서로 관게 없는 필드로 외부조인하는 기능 추가됨(내부조인도 가능)
 - 문법을 잘 봐야함 `leftJoin()`부분에 일반 조이노가 다르게 엔티티 하나만 들어감
     - 일반 조인 : `leftJoin(member.team, team)`
