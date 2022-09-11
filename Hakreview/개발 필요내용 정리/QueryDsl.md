@@ -155,6 +155,7 @@ QueryDsl 사용법
 
 ## fetch join
 페치 조인은 sql에서 제공하는 기능은 아니다. sql조인을 활용해서 연관된 엔티티를 sql한번에 조회하는 기능이다. 주로 성능 최적화에 쓰인다
+참고 블로그 : https://madplay.github.io/post/avoid-n+1-problem-in-jpa-using-querydsl-fetchjoin
 
         
     
