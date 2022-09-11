@@ -156,9 +156,28 @@ QueryDsl 사용법
 ## fetch join
 페치 조인은 sql에서 제공하는 기능은 아니다. sql조인을 활용해서 연관된 엔티티를 sql한번에 조회하는 기능이다. 주로 성능 최적화에 쓰인다
 참고 블로그 : https://madplay.github.io/post/avoid-n+1-problem-in-jpa-using-querydsl-fetchjoin
+```java
+ @Test
+    void fetchJoinUse() throws Exception{
+        em.flush();
+        em.clear();
+        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+
+        Member findMember = queryFactory
+                .selectFrom(member)
+                .join(member.team, team).fetchJoin()
+                .where(member.username.eq("member1"))
+                .fetchOne();
+
+        boolean loadded = emf.getPersistenceUnitUtil().isLoaded(findMember.getTeam());
+        assertThat(loadded).as("패치조인 미적용").isFalse();
+    }
+``` 
+join이든 left join이든 뒤에 fetchjoin()을 붙혀주면 된다.
 
         
-    
+## 서브쿼리
+`com.querydsl.jpa.JPAExpressions` 사용
 
 
 
