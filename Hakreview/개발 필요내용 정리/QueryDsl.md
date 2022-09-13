@@ -25,7 +25,7 @@ QueryDsl은 큐타입 파싱을 통해서 이루어진다.
 QueryDsl 사용법
 
 ```java
-@Test
+    @Test
     void resultFetch(){
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
         //리스트 조회 
@@ -53,7 +53,7 @@ QueryDsl 사용법
         results.getLimit();
                 
     }
-````
+```
 
     ## Join
     조인의 기본 문법은 첫번쨰 파람미터에 조인 대상을 지정하고, 두번 쨰 파라ㅏ미어테 별칭으로 사용할 Q타입을 지정하면 된다. 
@@ -179,6 +179,15 @@ join이든 left join이든 뒤에 fetchjoin()을 붙혀주면 된다.
 ## 서브쿼리
 `com.querydsl.jpa.JPAExpressions` 사용
 
+### from 절 subQuery 한계
+JPA JPQL 서브쿼리의 한계점으로 from 절의 서브쿼리(인라인 뷰) 는 지원하지 않음, QueryDsl도 지원하지 않음.
+하이버네이트 구현체를 사용하면 select절의 서브쿼리는 지원한다. querydsl도 하이버네이트 구현체를 사용하면 select절의 섭ㅡ쿼리를 지원함
+
+- 해결방안
+
+1. 서브쿼리를 join으로 변경(불가능한 상황 발생 할 수 있음)
+2. 애플리케이션에서 쿼리를 2번 분리해서 실행
+3. nativeSQL 사용하기
 
 
 
