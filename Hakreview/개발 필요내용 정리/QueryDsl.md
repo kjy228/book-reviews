@@ -226,6 +226,238 @@ select, 조건절(where)에서 사용 가능하다
     }
 ````
 
+문자더하기 예제
+```java
+/**
+     * 문자 더하기
+     */
+    @Test
+    void concatQuery(){
+        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+        //{userName}_{age}
+        List<String> result = queryFactory
+                .select(member.username.concat("_").concat(member.age.stringValue()))
+                .from(member)
+                .fetch();
+        for(String s : result ){
+            System.out.println("s = " + s);
+        }
+    }
+```
+
+## 프로젝션 
+프로젝션 : select 대상 지전
+- 프로젝션 대상이 하나면 타입을 명확하게 지정 가능
+- 대상이 둘 이상이면 튜플이다 dto로 조회
+
+그렇다면 튜플이란 뭘까? 
+- queryDSL이 여러개를 조회할때 사용할 수 있도록 만들어놓은 객체 이다.
+
+
+```java
+ @Test
+    void simpleProjection(){
+        List<String> result = queryFactory.select(member.username)
+                .from(member)
+                .fetch();
+
+        //Member 객체 타입도 한개의 프로젝션이라고 한다
+        List<Member> resultMember = queryFactory.select(member)
+                .from(member)
+                .fetch();
+
+        for(Member s : resultMember){
+            System.out.println("s = : "+ s);
+        }
+    }
+
+    @Test
+    void tupleProjection(){
+        List<Tuple> result = queryFactory.select(member.username, member.age)
+                .from(member)
+                .fetch();
+
+        for(Tuple t : result){
+            String username =  t.get(member.username);
+            Integer age = t.get(member.age);
+            System.out.println("name = : "+ username + " age : = " + age);
+        }
+    }
+````
+프로젝트를 설게할때 튜플은 querydsl.core 라이브러리에서 지원해주는것이기 때문에 레퍼지토리 계층에서 사용하는것은 좋으나 이를 넘어서 서비스계층이나 인터페이스 계층까지 튜플을 사용하는것은 좋은 예가 아니다.
+
+### 프로젝션 결과 반환 dto로 조회하기
+- 프로퍼티 접근
+- 필드 직접 접근
+- 생성자 사용 
+이렇게 세가지 방법을 지원한다.
+
+<b>기존 JPQL로 dto 조회할때 </b>
+
+```java
+@Test
+    void findDtoByJPQL(){
+        List<MemberDto> result = em.createQuery("select new study.querydsl.dto.MemberDto(m.username, m.age) from Member m", MemberDto.class)
+                .getResultList();
+        System.out.println(result);
+    }
+````
+new 오퍼레이션을 사용해서 해당 패키지 디렉토리를 select 해서 memberDto 클래스의 생성자에 직접 값을 주입해주는 방법으로 사용해야하는 번거로움이 있다. 
+또한 생성자 방식만 지원하기 때문에 setter, builder와 같은 lombok에서 지원하며 개발자들이 많이사용하는 생성패턴을 사용할 수 없다......ㅠㅠㅠㅠ
+
+<b>QueryDsl - bean으로 조회할때 </b>
+
+querDsl로 dto를 조회하기 위해서는 dto 클래스에 기본 생성자가 반드시 존재해야한다. 
+기본적인 플로우를 설명하자면 기본생성자를 생성한뒤 @data 어노테이션의 setter를 사용해서 memberDto의 각 속성에 값을 주입하게 된다.
+
+```java
+package study.querydsl.dto;
+
+import lombok.Data;
+
+@Data
+public class MemberDto {
+    private String username;
+    private int age;
+    //기본 생성자 
+    public MemberDto() {
+    }
+
+    public MemberDto(String username, int age) {
+        this.username = username;
+        this.age = age;
+    }
+
+}
+
+// Test code
+@Test
+    void findDtoBySetter(){
+        List<MemberDto> result = queryFactory
+                .select(Projections.bean(MemberDto.class,
+                        member.username,
+                        member.age))
+                .from(member)
+                .fetch();
+        for(MemberDto dto : result){
+            System.out.println(" dto : " + dto);
+        }
+    }
+```
+
+<b>QueryDsl - Field로 조회할때 </b>
+
+field로 조회할때는 기본생성자가 필요 없으며 또한 setter도 필요없다. 
+dto클래스의 각 속성에 직접 값을 주입하는것으로 생각하면 된다.
+```java
+ @Test
+    void findDtoByField(){
+        List<MemberDto> result = queryFactory
+                .select(Projections.fields(MemberDto.class,
+                        member.username,
+                        member.age))
+                .from(member)
+                .fetch();
+        for(MemberDto dto : result){
+            System.out.println(" dto : " + dto);
+        }
+    }
+```
+
+
+<b>QueryDsl - constructor로 조회할때 </b>
+constructor를 사용하게되면 `Projections.constructor(MemberDto.class,
+                        member.username,
+                        member.age)`
+의 username 과 age의 타입이 MemberDto의 username과 age속성의 타입과 같아야된다.
+
+```java
+@Test
+    void findDtoByConstructor(){
+        List<MemberDto> result = queryFactory
+                .select(Projections.constructor(MemberDto.class,
+                        member.username,
+                        member.age))
+                .from(member)
+                .fetch();
+        for(MemberDto dto : result){
+            System.out.println(" dto : " + dto);
+        }
+    }
+```
+
+<b>QueryDsl - @QueryProjection 조회할때 </b>
+
+생성자 + @QueryProjection
+
+생성자만 가지고 조회를 하게되었을때는 컴파일타임에 오류를 잡을 수 없다. 하지만 @QueryProject을 생성자에 달아주면 컴파일타임에 오류를 잡을 수 있는 장점이 있다.
+
+```java
+
+// memberDto constructor
+    @QueryProjection
+    public MemberDto(String username, int age) {
+        this.username = username;
+        this.age = age;
+    }
+
+//test code
+    @Test
+    void findDtoByQueryProjectino(){
+        List<MemberDto> result = queryFactory
+                .select(new QMemberDto(member.username, member.age))
+                .from(member)
+                .fetch();
+    }
+```
+
+하지만 단점은 
+- Q class를 생성해주어야 한다는것
+- dto가 querydsl에 의존을 하게 된다는것이다.
+
+
+## 동적 쿼리 
+조건절에 사용할 변수들이 null일 수도 있고 아닐수도 있을때 사용하는 방법이다.
+
+1. BooleanBuilder 사용
+
+```java
+@Test
+    void dynamicQuery_BooleanBuilder(){
+        String usernameParam = "member1";
+        Integer ageParam = 10;
+        List<Member> result = searchMember1(usernameParam, ageParam);
+        assertThat(result.size()).isEqualTo(1);
+    }
+
+    private List<Member> searchMember1(String usernameCond, Integer ageCond) {
+        BooleanBuilder builder = new BooleanBuilder();
+        if(usernameCond != null){
+            builder.and(member.username.eq(usernameCond));
+        }
+
+        if(ageCond != null){
+            builder.and(member.age.eq(ageCond));
+        }
+        return queryFactory
+                .selectFrom(member)
+                .where(builder)
+                .fetch();
+    }
+````
+searchMember1 메서드의 인풋 파라미터의 값이 null이거나 값이 있을때 분기 처리하여 builder에 담은 후 queryFactory의 where절에 넣어주면 null이 아닐때는 조건이 추가되어 쿼리가 날라간다 
+아래의 사진은 해당 쿼리이다.
+
+![image](https://user-images.githubusercontent.com/43670838/190085942-02164b54-c934-4c1a-9dd6-b689afba2ae5.png)
+
+2. 동적쿼리- where 다중 파라미터 사용 _ 실무에서 가장 많이쓰는 방법!!!!!!
+
+
+
+
+
+
+
 
 
 
