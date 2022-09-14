@@ -287,6 +287,10 @@ select, 조건절(where)에서 사용 가능하다
 프로젝트를 설게할때 튜플은 querydsl.core 라이브러리에서 지원해주는것이기 때문에 레퍼지토리 계층에서 사용하는것은 좋으나 이를 넘어서 서비스계층이나 인터페이스 계층까지 튜플을 사용하는것은 좋은 예가 아니다.
 
 ### 프로젝션 결과 반환 dto로 조회하기
+- 프로퍼티 접근
+- 필드 직접 접근
+- 생성자 사용 
+이렇게 세가지 방법을 지원한다.
 
 <b>기존 JPQL로 dto 조회할때 </b>
 
@@ -359,6 +363,92 @@ dto클래스의 각 속성에 직접 값을 주입하는것으로 생각하면 �
         }
     }
 ```
+
+
+<b>QueryDsl - constructor로 조회할때 </b>
+constructor를 사용하게되면 `Projections.constructor(MemberDto.class,
+                        member.username,
+                        member.age)`
+의 username 과 age의 타입이 MemberDto의 username과 age속성의 타입과 같아야된다.
+
+```java
+@Test
+    void findDtoByConstructor(){
+        List<MemberDto> result = queryFactory
+                .select(Projections.constructor(MemberDto.class,
+                        member.username,
+                        member.age))
+                .from(member)
+                .fetch();
+        for(MemberDto dto : result){
+            System.out.println(" dto : " + dto);
+        }
+    }
+```
+
+<b>QueryDsl - @QueryProjection 조회할때 </b>
+
+생성자 + @QueryProjection
+
+생성자만 가지고 조회를 하게되었을때는 컴파일타임에 오류를 잡을 수 없다. 하지만 @QueryProject을 생성자에 달아주면 컴파일타임에 오류를 잡을 수 있는 장점이 있다.
+
+```java
+
+// memberDto constructor
+    @QueryProjection
+    public MemberDto(String username, int age) {
+        this.username = username;
+        this.age = age;
+    }
+
+//test code
+    @Test
+    void findDtoByQueryProjectino(){
+        List<MemberDto> result = queryFactory
+                .select(new QMemberDto(member.username, member.age))
+                .from(member)
+                .fetch();
+    }
+```
+
+하지만 단점은 
+- Q class를 생성해주어야 한다는것
+- dto가 querydsl에 의존을 하게 된다는것이다.
+
+
+## 동적 쿼리 
+조건절에 사용할 변수들이 null일 수도 있고 아닐수도 있을때 사용하는 방법이다.
+
+1. BooleanBuilder 사용
+
+```java
+@Test
+    void dynamicQuery_BooleanBuilder(){
+        String usernameParam = "member1";
+        Integer ageParam = 10;
+        List<Member> result = searchMember1(usernameParam, ageParam);
+        assertThat(result.size()).isEqualTo(1);
+    }
+
+    private List<Member> searchMember1(String usernameCond, Integer ageCond) {
+        BooleanBuilder builder = new BooleanBuilder();
+        if(usernameCond != null){
+            builder.and(member.username.eq(usernameCond));
+        }
+
+        if(ageCond != null){
+            builder.and(member.age.eq(ageCond));
+        }
+        return queryFactory
+                .selectFrom(member)
+                .where(builder)
+                .fetch();
+    }
+````
+searchMember1 메서드의 인풋 파라미터의 값이 null이거나 값이 있을때 분기 처리하여 builder에 담은 후 queryFactory의 where절에 넣어주면 null이 아닐때는 조건이 추가되어 쿼리가 날라간다 
+아래의 사진은 해당 쿼리이다.
+
+![image](https://user-images.githubusercontent.com/43670838/190085942-02164b54-c934-4c1a-9dd6-b689afba2ae5.png)
 
 
 
