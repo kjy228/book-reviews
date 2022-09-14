@@ -16,11 +16,13 @@ QueryDsl은 큐타입 파싱을 통해서 이루어진다.
 
         assertThat(findMember.getUsername()).isEqualTo("member1");
     }
-````
+```
+
 이코드로 알 수 있는 QueryDsl의 장점
 1. `.where(m.username.eq("member1"))` 부분에서 알 수 있듯이 파라미터 바인딩을 자동으로 해준다. 
 2. 오타에 대한 내용을 런타임 시점이 아닌 `컴파일 타임` 에 알 수 있다.
 3. `JPAQueryFactory queryFactory = new JPAQueryFactory(em);`  부분은 멀티쓰레드 환경에서 `동시성 문제` 없이 작동하도록 설계가 되어있어 개발자 입장에서 편하다.
+
 
 QueryDsl 사용법
 
@@ -55,9 +57,11 @@ QueryDsl 사용법
     }
 ```
 
-    ## Join
-    조인의 기본 문법은 첫번쨰 파람미터에 조인 대상을 지정하고, 두번 쨰 파라ㅏ미어테 별칭으로 사용할 Q타입을 지정하면 된다. 
-    ```java
+
+## Join
+조인의 기본 문법은 첫번쨰 파람미터에 조인 대상을 지정하고, 두번 쨰 파라ㅏ미어테 별칭으로 사용할 Q타입을 지정하면 된다. 
+
+```java
      @Test
     void join(){
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
@@ -87,10 +91,10 @@ QueryDsl 사용법
                 .containsExactly("member1", "member2");
 
     }
-    ````
+```
     
     
-    ```java
+```java
     @Test
     public void theta_join() throws Exception{
         em.persist(new Member("teamA"));
@@ -106,15 +110,15 @@ QueryDsl 사용법
             .extracting("username")
             .containsExactly("teamA", "teamB");
    }
-   ````
+```
+- from절에 여러 엔티티를 선택해서 세타조인
+- 외부조인 불가능 -> 조인on을 사용하면 외부 조인 가능
    
-   - from절에 여러 엔티티를 선택해서 세타조인
-   - 외부조인 불가능 -> 조인on을 사용하면 외부 조인 가능
-   
-   ## Join on
-   - 조인대상 필터링
+### Join on
+- 조인대상 필터링
    회원과 팀을 조인하면서 팀 이름이 teamA인 팀만 조인
    on절을 활용해 조인 대상을 필터링 할 때, 외부조인이 아니라 내부조인(inner join)을 사용하면, where 절에서 필터링 하는 것과 기능이 동일하다. 따라서 on절을 활용한 조인 대상 필터링을 사용할 때, 내부조인 이면 익숙한 where절로 해결하고, 정말 외부 조인이 필요한 경우에만 이 기능 사용하는것을 추천.
+
 
 
 ## 연관관계 없는 엔티티 외부 조인
@@ -188,6 +192,39 @@ JPA JPQL 서브쿼리의 한계점으로 from 절의 서브쿼리(인라인 뷰)
 1. 서브쿼리를 join으로 변경(불가능한 상황 발생 할 수 있음)
 2. 애플리케이션에서 쿼리를 2번 분리해서 실행
 3. nativeSQL 사용하기
+
+## Case문
+select, 조건절(where)에서 사용 가능하다 
+
+```java
+/**
+* case 문 사용하여 조회
+*/
+    @Test
+    void simpleCaseQuery(){
+        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+        List<String> result = queryFactory
+                .select(member.age
+                        .when(10).then("열살")
+                        .when(20).then("스무살")
+                        .when(30).then("늙")
+                        .otherwise("더 늙ㅠㅠㅠ"))
+                .from(member)
+                .fetch();
+    }
+
+@Test
+    void complexCaseQuery(){
+        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+        queryFactory
+                .select(new CaseBuilder()
+                        .when(member.age.between(0,20)).then("0-20살")
+                        .otherwise("늙~~~~!!"))
+                .from(member)
+                .fetch();
+                
+    }
+````
 
 
 
