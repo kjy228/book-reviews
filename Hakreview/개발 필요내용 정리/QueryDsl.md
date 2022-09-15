@@ -503,6 +503,30 @@ JPA는 기본적으로 영속성컨텍스트에 엔티티가 올라가 있다. �
 업데이트 후에 디비에서 엔티티를 조회해 오면 이미 엔티티의 정보가 영속성컨텍스트에 들어있기때문에 db에서 조회해온 정보를 버리고 기존에 영속성컨텍스트에 들어있는(영속상태)인 정보를 사용하게 된다.
 <span style='background-color:#ffdce0'>싱크문제를 해결하기 위해서 벌크연산 후에 `em.flush(); em.clear();` 를 사용하여 db와 싱크를 맞춰야 한다</span>
 
+## 팁
+```java
+// 방법 1
+class MemberJpaRepository{
+    private final EntityManager em;
+    private final JpaQueryFactory queryFactory;
+}
+
+// 방법 2
+class QueryDslApplication{
+    
+    @Bean
+    JpaQueryFactory jpaQueryFacotry(EntityManaber em){
+        return new JPAQueryFactory(em);
+    }
+}
+```
+이와같이 사용했을때 동시성 문제는 없을까?
+스프링은 싱클톤으로 돌아가고있고 여러 요청이 들어왔을때 동시성 이슈가 발생하지 않는다!
+그이유는?
+어차피 JPAQueryFactory 는 EntityManager에 의존하고있는데 EntityManager는 여러요청이 들어와도 각각의 트랜잭션이 발생하도록 라우팅 처리를해주기 때문이다.!
+
+
+
 
 
 
