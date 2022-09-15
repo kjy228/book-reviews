@@ -452,6 +452,57 @@ searchMember1 메서드의 인풋 파라미터의 값이 null이거나 값이 �
 
 2. 동적쿼리- where 다중 파라미터 사용 _ 실무에서 가장 많이쓰는 방법!!!!!!
 
+where절 안에서 처리 할 수 있다.
+```java
+@Test
+    void dynamicQuery_WhereParam(){
+        String usernameParam = "member1";
+        Integer ageParam = 10;
+        List<Member> result = searchMember2(usernameParam, ageParam);
+        assertThat(result.size()).isEqualTo(1);
+    }
+
+    private List<Member> searchMember2(String usernameParam, Integer ageParam) {
+        return queryFactory
+                .selectFrom(member)
+                .where(usernameEq(usernameParam), ageEq(ageParam))
+                .fetch();
+
+    }
+
+    private Predicate usernameEq(String usernameParam) {
+        if(usernameParam==null)
+            return null;
+        return member.username
+                .eq(usernameParam);
+    }
+
+    private Predicate ageEq(Integer ageParam) {
+        if(ageParam == null)return null;
+        return member.age
+                .eq(ageParam);
+    }
+````
+그렇다면 동적쿼리를 다룰때 불린빌더와 where절 사용하는것중 뭐가 좋을까?
+강의에서는 where절을 추천하는데 그 이유는! usernameEq와 같은 직관적인 메서드ㅁ명 사용으로 인해 코드 가독성이 올라가기 때문이다.
+
+## 수정 삭제 벌크연산
+*쿼리 한번으로 대량 데이터 수정*
+
+```java
+@Test
+    void bulkUpdate() {
+        long count = queryFactory
+                .update(member)
+                .set(member.username, "비회원")
+                .where(member.age.lt(28))
+                .execute();
+    }
+````
+JPA는 기본적으로 영속성컨텍스트에 엔티티가 올라가 있다. 하지만 `벌크연산` 은 영속성 컨텍스트를 무시하고 바로 DB를 업데이한다 -> 싱크 문제 발생!!!
+업데이트 후에 디비에서 엔티티를 조회해 오면 이미 엔티티의 정보가 영속성컨텍스트에 들어있기때문에 db에서 조회해온 정보를 버리고 기존에 영속성컨텍스트에 들어있는(영속상태)인 정보를 사용하게 된다.
+<span style='background-color:#ffdce0'>싱크문제를 해결하기 위해서 벌크연산 후에 `em.flush(); em.clear();` 를 사용하여 db와 싱크를 맞춰야 한다</span>
+
 
 
 
