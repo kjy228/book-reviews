@@ -86,3 +86,12 @@ team기준으로 조회 하여 '팀A에 속하는 멤버들을 출력하라' 라
 - 컬렉션을 페치 조인하면 페이징 api(setfirstResult, setMaxResults)사용할 수 없음
     - 일대일, 다대일 같은 단일 값 연관 필드들은 페치조인해도 페이징 가능
     - 하이버네이트는 경고 로그를 남기고 메모리에 페이징(매우 위험!!!)
+- `BatchSize` 어노테이션을 통해 페이징처리를 할 수 있다.
+    ```java
+    @Entity
+    public class Team{
+        @BatchSize(size = 100)
+        @OneToMany(mappeddBy = "team")
+        private List<Member> members = new ArrayList<>();
+    }
+    ```
