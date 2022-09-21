@@ -553,6 +553,40 @@ public class InitMember {
 `@Profile("local")`을 선언하게되면 application.yml의 active가 `local`일때만 돌아가게된다.
 
 
+## 팁3
+```java
+@Override
+    public Page<MemberTeamDto> searchSimple(MemberSearchCondition condition, Pageable pageable) {
+        List<MemberTeamDto> results =  queryFactory
+                .select(new QMemberTeamDto(
+                        member.id.as("memberId"),
+                        member.username,
+                        member.age,
+                        team.id.as("teamId"),
+                        team.name.as("teamName")
+                ))
+                .from(member)
+                .leftJoin(member.team, team)
+                .where(
+                        usernameEq(condition.getUsername()),
+                        teamNameEq(condition.getTeamName()),
+                        ageGoe(condition.getAgeGoe()),
+                        ageLoe(condition.getAgeLoe())
+                )
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        List<MemberTeamDto> content = results;
+        long total = content.size();
+
+        return new PageImpl<>(content, pageable, total);
+    }
+
+````
+기존의 page처리르위한 쿼리는 `fetchResults()` 를 사용하여 QueryResults<> 로 리턴 받았었지만 
+fetchResults()가 deprecated 되었다. 
+그래서 위와같은 fetch로 조회를하고 count는 다시 size()로 리턴받는 형식으로 변경하면 된다.
 
 
 
