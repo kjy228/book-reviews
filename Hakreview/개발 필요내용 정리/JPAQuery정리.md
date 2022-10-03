@@ -94,9 +94,3 @@ bulk update는 db에 바로 접근하는것이기 때문에 영속성이 관리�
 ### Join
 
 
------
-
-
-application-dev.properties
-
-application-통시.properties 
