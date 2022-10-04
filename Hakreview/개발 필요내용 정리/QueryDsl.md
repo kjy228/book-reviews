@@ -588,38 +588,3 @@ public class InitMember {
 fetchResults()가 deprecated 되었다. 
 그래서 위와같은 fetch로 조회를하고 count는 다시 size()로 리턴받는 형식으로 변경하면 된다.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
