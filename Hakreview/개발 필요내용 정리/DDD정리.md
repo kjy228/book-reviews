@@ -3,6 +3,8 @@
 ## DDD의 핵심 목표 
 Loosly coupling , High cohension
 어플리케이션에서 모듈간의 의존성은 최소화하고, 응집성은 최대화한다. 
+이론에서도 결합도는 낮추고 응집도는 높이라는 말이 있듯이 이를 따라가기위한 아키텍쳐라고 생각한다.
+
 
 
 ## DDD는 Strategic Design(개념설계)과 Tactical Design(구체적 설계)으로 나눌 수 있다
