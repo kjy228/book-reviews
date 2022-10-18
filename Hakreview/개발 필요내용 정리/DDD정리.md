@@ -5,7 +5,14 @@ Loosly coupling , High cohension
 어플리케이션에서 모듈간의 의존성은 최소화하고, 응집성은 최대화한다. 
 이론에서도 결합도는 낮추고 응집도는 높이라는 말이 있듯이 이를 따라가기위한 아키텍쳐라고 생각한다.
 
+![image](https://user-images.githubusercontent.com/43670838/196368852-362b13c7-9900-4513-9eae-f910128458b9.png)
 
+- Application Layer : application층을 통해 유저는 애플리케이션과 통신할 수 있다. 
+이 레이어에서는 `restful controller, user interfaces, json serializatio libraries`가 포함된다. 
+
+- Domain Layer : 비즈니스로직 과련된 코드를 포함한다. 우리 애플리케이션의 핵심이여 이 층에서는 applicaiont, infrastructure로 부터 고립되어야만 한다. 또한 db와 같은 외부 파트와 통신하기위한 api interface가 포함된다. 
+
+- Infrastructure Layer : 도메인레이어의 interface 구현부와  db configuration, spring configuration 같은 클래스가 포함된다.
 
 ## DDD는 Strategic Design(개념설계)과 Tactical Design(구체적 설계)으로 나눌 수 있다
 
