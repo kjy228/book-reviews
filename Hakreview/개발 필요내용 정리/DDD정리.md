@@ -171,8 +171,51 @@ public class OrderController {
 이 컨트롤러는 우리의 도메인에 외부restful 인터페이스를 붙히는 역할을하며 port역할을하는 orderService의 적절한 메서드를 호출함으로써 연결한다.
 
 ## Infrastructure Layer
+이 층은 application을 실행하기위한 로직을 포함하고있다. 따라서 configuration클래스를 생성해야된다
+```java
+@Configuration
+public class BeanConfiguration {
 
-test
+    @Bean
+    OrderService orderService(OrderRepository orderRepository) {
+        return new DomainOrderService(orderRepository);
+    }
+}
+```
+그 다음으로 spring data repository 를 사용할 수 있는 configuration을 만들어야 한다.
+
+```java
+@EnableMongoRepositories(basePackageClasses = SpringDataMongoOrderRepository.class)
+public class MongoDBConfiguration {
+}
+```
+이 클래스는 `basePackageClasses` 프로퍼티를 가지고 있어야한다. 왜냐하면 오직 인프라스트쳐에만 해당되어야 하기 때문이다. 또한 스플이이 전체 어플리케이션을 스캔할 이유가 없다. 더 나아가서 이 클래스는 몽고디비와 application을 관장하는 모든것을 관장한다.
+마지막으로, orderRepository를 도메인 레이어에 만들어야된다.
+```java
+@Component
+public class MongoDbOrderRepository implements OrderRepository {
+
+    private SpringDataMongoOrderRepository orderRepository;
+
+    @Autowired
+    public MongoDbOrderRepository(SpringDataMongoOrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
+    }
+
+    @Override
+    public Optional<Order> findById(UUID id) {
+        return orderRepository.findById(id);
+    }
+
+    @Override
+    public void save(Order order) {
+        orderRepository.save(order);
+    }
+}
+```
+
+이런 레이어적인 접근법의 가장 큰장점은 우리가 도메인로직을 다른것들로부터 독립시킬 수 있다는 것이다.도메인 파트는 오직 비즈니스 로직만 포함해야된고 다른 환경으로 쉽게 옮길 수 있어야 한다. 
+
 
 
 ## JPA가 지원하는 다양한 쿼리 방법
