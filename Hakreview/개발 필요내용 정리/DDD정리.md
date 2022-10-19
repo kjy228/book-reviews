@@ -7,19 +7,59 @@ Loosly coupling , High cohension
 
 ![image](https://user-images.githubusercontent.com/43670838/196368852-362b13c7-9900-4513-9eae-f910128458b9.png)
 
-- Application Layer : application층을 통해 유저는 애플리케이션과 통신할 수 있다. 
+- <b>Application Layer</b> : application층을 통해 유저는 애플리케이션과 통신할 수 있다. 
 이 레이어에서는 `restful controller, user interfaces, json serializatio libraries`가 포함된다. 
 
-- Domain Layer : 비즈니스로직 과련된 코드를 포함한다. 우리 애플리케이션의 핵심이여 이 층에서는 applicaiont, infrastructure로 부터 고립되어야만 한다. 또한 db와 같은 외부 파트와 통신하기위한 api interface가 포함된다. 
+- <b> Domain Layer</b> : 비즈니스로직 과련된 코드를 포함한다. 우리 애플리케이션의 핵심이여 이 층에서는 application, infrastructure로 부터 고립되어야만 한다. 또한 db와 같은 외부 파트와 통신하기위한 api interface가 포함된다. 
 
-- Infrastructure Layer : 도메인레이어의 interface 구현부와  db configuration, spring configuration 같은 클래스가 포함된다.
+- <b>Infrastructure Layer</b> : 도메인레이어의 interface 구현부와  db configuration, spring configuration 같은 클래스가 포함된다.
 
-## DDD는 Strategic Design(개념설계)과 Tactical Design(구체적 설계)으로 나눌 수 있다
 
-### Strategic design 
+## Domain
 
-### Tactical Design
 
+```java
+public class Order {
+    private UUID id;
+    private OrderStatus status;
+    private List<OrderItem> orderItems;
+    private BigDecimal price;
+
+    public Order(UUID id, Product product) {
+        this.id = id;
+        this.orderItems = new ArrayList<>(Arrays.astList(new OrderItem(product)));
+        this.status = OrderStatus.CREATED;
+        this.price = product.getPrice();
+    }
+
+    public void complete() {
+        validateState();
+        this.status = OrderStatus.COMPLETED;
+    }
+
+    public void addOrder(Product product) {
+        validateState();
+        validateProduct(product);
+        orderItems.add(new OrderItem(product));
+        price = price.add(product.getPrice());
+    }
+
+    public void removeOrder(UUID id) {
+        validateState();
+        final OrderItem orderItem = getOrderItem(id);
+        orderItems.remove(orderItem);
+
+        price = price.subtract(orderItem.getPrice());
+    }
+
+    // getters
+}
+```
+
+Order Entity는 `aggregate root` 이다. 비즈니스 로직에 연관댄 모든 것들은 이 클래스를 통한다. 
+- order는 Id가 주어지고 한개의 product가 있을때만 생성될 수 있다. 
+- order의 상태가 completed가 되면 orderitems는 사용불가능하게 변경한다.
+- 외부에서 setter를 통해 Order를 변경하는것은 불가능하다.
 
 
 ## JPA가 지원하는 다양한 쿼리 방법
