@@ -15,7 +15,7 @@ Loosly coupling , High cohension
 - <b>Infrastructure Layer</b> : 도메인레이어의 interface 구현부와  db configuration, spring configuration 같은 클래스가 포함된다.
 
 
-## Domain
+## Domain Layer
 
 
 ```java
@@ -128,7 +128,52 @@ public class DomainOrderService implements OrderService {
     }
 }
 ```
-Hexagonal 아키텍처에서 이 서비슨 port를 구현한 어댑터이다. 게다가 이것을 spring bean으로 등록하면ㅇ ㅏㄴ되는데 그 이유는 도메인관점에서 이것은 내부로직이며 spring configuration은 바깥에 잇기 때문인다. 
+Hexagonal 아키텍처에서 이 서비슨 port를 구현한 어댑터이다. 게다가 이것을 spring bean으로 등록하면 안되는데 그 이유는 도메인관점에서 이것은 내부로직이며 spring configuration은 바깥에 잇기 때문인다. 
+
+## Application Layer
+
+이 레이어에서 유저는 restful api 를 사용해 우리의 application과 소통할 수 있다. 
+```java
+@RestController
+@RequestMapping("/orders")
+public class OrderController {
+
+    private OrderService orderService;
+
+    @Autowired
+    public OrderController(OrderService orderService) {
+        this.orderService = orderService;
+    }
+
+    @PostMapping
+    CreateOrderResponse createOrder(@RequestBody CreateOrderRequest request) {
+        UUID id = orderService.createOrder(request.getProduct());
+
+        return new CreateOrderResponse(id);
+    }
+
+    @PostMapping(value = "/{id}/products")
+    void addProduct(@PathVariable UUID id, @RequestBody AddProductRequest request) {
+        orderService.addProduct(id, request.getProduct());
+    }
+
+    @DeleteMapping(value = "/{id}/products")
+    void deleteProduct(@PathVariable UUID id, @RequestParam UUID productId) {
+        orderService.deleteProduct(id, productId);
+    }
+
+    @PostMapping("/{id}/complete")
+    void completeOrder(@PathVariable UUID id) {
+        orderService.completeOrder(id);
+    }
+}
+```
+이 컨트롤러는 우리의 도메인에 외부restful 인터페이스를 붙히는 역할을하며 port역할을하는 orderService의 적절한 메서드를 호출함으로써 연결한다.
+
+## Infrastructure Layer
+
+test
+
 
 ## JPA가 지원하는 다양한 쿼리 방법
  - JPQL
