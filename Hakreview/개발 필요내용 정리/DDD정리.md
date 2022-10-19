@@ -61,6 +61,74 @@ Order Entity는 `aggregate root` 이다. 비즈니스 로직에 연관댄 모든
 - order의 상태가 completed가 되면 orderitems는 사용불가능하게 변경한다.
 - 외부에서 setter를 통해 Order를 변경하는것은 불가능하다.
 
+```java
+public class OrderItem {
+    private UUID productId;
+    private BigDecimal price;
+
+    public OrderItem(Product product) {
+        this.productId = product.getId();
+        this.price = product.getPrice();
+    }
+
+    // getters
+}
+```
+
+
+그다음으로 우리는 repository interface를 생성해야 한다. interface 구현부는 infrastructure에 작성한다.
+
+마지막으로 Order는 항상 각각의 액션의 끝난 후에 저장되어야한다. 이것을 하기위해선 우리는 DomainService(root의 일부분이 될수 없는 로직을 포함한)를 먼저 정의해야한다.
+
+```java
+public class DomainOrderService implements OrderService {
+
+    private final OrderRepository orderRepository;
+
+    public DomainOrderService(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
+    }
+
+    @Override
+    public UUID createOrder(Product product) {
+        Order order = new Order(UUID.randomUUID(), product);
+        orderRepository.save(order);
+
+        return order.getId();
+    }
+
+    @Override
+    public void addProduct(UUID id, Product product) {
+        Order order = getOrder(id);
+        order.addOrder(product);
+
+        orderRepository.save(order);
+    }
+
+    @Override
+    public void completeOrder(UUID id) {
+        Order order = getOrder(id);
+        order.complete();
+
+        orderRepository.save(order);
+    }
+
+    @Override
+    public void deleteProduct(UUID id, UUID productId) {
+        Order order = getOrder(id);
+        order.removeOrder(productId);
+
+        orderRepository.save(order);
+    }
+
+    private Order getOrder(UUID id) {
+        return orderRepository
+          .findById(id)
+          .orElseThrow(RuntimeException::new);
+    }
+}
+```
+Hexagonal 아키텍처에서 이 서비슨 port를 구현한 어댑터이다. 게다가 이것을 spring bean으로 등록하면ㅇ ㅏㄴ되는데 그 이유는 도메인관점에서 이것은 내부로직이며 spring configuration은 바깥에 잇기 때문인다. 
 
 ## JPA가 지원하는 다양한 쿼리 방법
  - JPQL
