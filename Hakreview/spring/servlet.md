@@ -59,3 +59,8 @@ public class HelloServlet extends HttpServlet {
 
 스프링부트로 생성한 application을 실행하면 내장톰캣버서가 서블릿 컨테이너를 띄워준다. 
 그 후, 웹에서 WAS를 통해 request를 보내면 WAS는 자동으로 request, response 객체를 생성해서 url에따라 servlet을 실행하고 response에 value를 세팅하여 웹에게 내려준다. 
+
+
+## HttpServletRequest
+HTTP요청 메시지 파싱을 편리하게 사용할 수 있도록 개발자 대신에 HTTP요청 메시지를 파싱한다. 그 결과를 HttpServletRequest객체에 담아서 제공한다. 
+
