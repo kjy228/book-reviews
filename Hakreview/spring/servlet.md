@@ -64,3 +64,7 @@ public class HelloServlet extends HttpServlet {
 ## HttpServletRequest
 HTTP요청 메시지 파싱을 편리하게 사용할 수 있도록 개발자 대신에 HTTP요청 메시지를 파싱한다. 그 결과를 HttpServletRequest객체에 담아서 제공한다. 
 
+` 임시 저장소 `기능을 제공한다. 
+HTTP 메시지요청이 들어와 응답을 보내기까지가 HttpServletRequest객체의 생존기간인데 그동안 request.setAttribute, request.getAttribute를 사용하여 값을 저장 조회 할 수 있다. 
+
+
