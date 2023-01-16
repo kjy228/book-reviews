@@ -68,3 +68,36 @@ HTTP요청 메시지 파싱을 편리하게 사용할 수 있도록 개발자 �
 HTTP 메시지요청이 들어와 응답을 보내기까지가 HttpServletRequest객체의 생존기간인데 그동안 request.setAttribute, request.getAttribute를 사용하여 값을 저장 조회 할 수 있다. 
 
 
+
+## JSP
+servlet만 사용하게 되면 아래 사진과 같은 자바코드에 html을 사용해야 되는 끔찍한 상황이 발생하게된다. 왜 끔찍하냐면 html 태그를 사용하면서 오타가 발생할 확률이 높고 다른 개발자들이 이 코드를 보고 어떤 화면인지 파악하기 힘들기 때문에 가독성도 현저히 떨어지게 된다. 따라서 이런 불편함을 해소하기위해 jsp 를 사용 한다.
+![image](https://user-images.githubusercontent.com/43670838/212692640-0c2683f3-9727-4198-95aa-b0ea2308a5d8.png)
+
+```
+build.gradle 의존성 주입
+implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api'
+```
+
+###  JSP 문법
+```jsp
+<!--> html 태그 위에 아래 코드 필수 </-->
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<!-->java 코드 import </-->
+<%@ page import="hello.servlet.domain.member.Member" %>
+<%@ page import="hello.servlet.domain.member.MemberRepository" %>
+
+<!-->java 코드 </-->
+
+<%
+    //request, response 사용 가능
+    MemberRepository memberRepository = MemberRepository.getInstance();
+
+    System.out.println("MemberSaveServlet.service");
+    String username = request.getParameter("username");
+    int age = Integer.parseInt(request.getParameter("age"));
+%>
+
+```
+jsp에 java 코드를 작성하면 자동으로 
