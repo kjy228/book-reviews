@@ -100,4 +100,7 @@ implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api'
 %>
 
 ```
-jsp에 java 코드를 작성하면 자동으로 
+jsp에 java 코드를 작성하면 자동으로 servlet으로 변환되어 HttpServlet의  request, response를 사용할 수 있다.
+
+
+하지만 jsp도 불완전하다. 코드를 보면 java코드, 데이터를 조회하는 레포지토리 등 다양한 코드가 모두 JSP에 노출되어있따. jsp가 너무 많은 역할을하며 유지보수 측면에서도 한 파일의 크기가 굉장히 커질 수 있따. 이러한 문제를 해결하기 위해서 비즈니스 로직은 서블릿 처럼 다른고셍서 처리하고, JSP 는 목적에 맞게 HTML로 view를 그리는 일에 집중하도록 `MVC` 패턴이 등장했다.
