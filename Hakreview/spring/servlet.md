@@ -113,3 +113,19 @@ jsp에 java 코드를 작성하면 자동으로 servlet으로 변환되어 HttpS
 `Model`: 뷰에 출력할 데이털르 담아둔다. 뷰가 필요한 데이터를 모두 모델에 담아서 전달해주는 덕분에 뷰는 비즈니스 로직이다. 
 `View`: 모델에 담겨있는 데이터를 사용해서 화면을 그리는 일에 집중한다.
 
+```java
+@WebServlet(name = "mvcMemberFormServlet", urlPatterns = "/servlet-mvc/members/new-form")
+public class MvcMemberFormFServlet extends HttpServlet {
+    @Override
+    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String viewPath = "/WEB-INF/views/new-form.jsp";
+        RequestDispatcher dispatcher = request.getRequestDispatcher(viewPath);
+        dispatcher.forward(request,response);
+    }
+}
+```
+`dispatcher.forward()` :  다른 서블릿이나 jsp로 이동할수 있는 기능이며 서버내부에서 재호출이 발생한다. 
+`/WEB-INF`: 이 경로안에 JSP가 있으면 외부에서 직접  JSP 호출할 수 없다. 
+
+`redirect vs forward`
+리다이렉ㄹ트는 실제 클라이언트에 응다빙 나갓다가, 클라이언트가 redirect경로로 재요청한다. 따라서 클라에서 인지할 수 있고 url 경로도 실제 변ㄱ여된다. 반면 포워드는 서버 내부에서 일어나느 호출이기 때문에 클라가 인지하지 못한다.
