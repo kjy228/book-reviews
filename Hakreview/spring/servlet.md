@@ -129,3 +129,21 @@ public class MvcMemberFormFServlet extends HttpServlet {
 
 `redirect vs forward`
 리다이렉ㄹ트는 실제 클라이언트에 응다빙 나갓다가, 클라이언트가 redirect경로로 재요청한다. 따라서 클라에서 인지할 수 있고 url 경로도 실제 변ㄱ여된다. 반면 포워드는 서버 내부에서 일어나느 호출이기 때문에 클라가 인지하지 못한다.
+
+## MVC 한계
+컨트로러는 중복이 많고 피요하지 않은 코드가 많다. 
+
+`포워드 중복` 
+View로 이동하는 코드가 중복호출된다. 메서드로 공통화해도 되지만 해당 메서드도 항상 직접 호출해야한다. 
+```java
+        RequestDispatcher dispatcher = request.getRequestDispatcher(viewPath);
+        dispatcher.forward(request,response);
+```
+
+`viewPath 중복`
+```java
+    String viewPath = "/WEB-INF/views/members.jsp";
+```
+viewPath 에서 jsp가 아니라 thymeleaf같은 다른 뷰로 변경한다면 전체 코드를 다 변경해야한다. 
+
+기능이 복잡해 질수록 컨트롤러에서 공통으로 처리햐아 하는 부분이 점점 더 많이 증가할 것이다. 단순히 공통 기능을 메서드로 뽑으면 될 것 같지만, 결과적으로 해당 메서드를 항상 호출해야 하고 실수로 호출하지 않으면 문제가된다. 또한 호출하는것 자체가 중복이다. 
