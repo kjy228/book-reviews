@@ -1,12 +1,12 @@
 # Servlet
 
-ìŠ¤í”„ë§ë¶€íŠ¸ë¥¼ ì‚¬ìš©í•˜ì—¬ í†°ìº£ì„œë²„ë¥¼ ë‚´ìž¥í™”ë¥¼ í†µí•´ ì„œë¸”ë¦¿ì½”ë“œ ì‹¤í–‰
+½ºÇÁ¸µºÎÆ®¸¦ »ç¿ëÇÏ¿© ÅèÄ¹¼­¹ö¸¦ ³»ÀåÈ­¸¦ ÅëÇØ ¼­ºí¸´ÄÚµå ½ÇÇà
 
-## Annotation ì •ë¦¬
+## Annotation Á¤¸®
 ### @ServletComponentScan
-[ì°¸ê³ ]https://www.baeldung.com/spring-servletcomponentscan
+[Âü°í]https://www.baeldung.com/spring-servletcomponentscan
 
-@ServletComponentScanì€ ì–´ëŠ configurationì—†ì´ ì‚¬ìš©í•  ìˆ˜ ìžˆëŠ”ë° ê·¸ ì´ìœ ëŠ” ë‚´ìž¥ëœ ì„œë¸”ë ›ì»¨í…Œì´ë„ˆë•Œë¬¸ì´ë‹¤. ìž„ë² ë””ë“œ ì»¨í…Œì´ë„ˆë“¤ì€ @WebServlet, @WebFilter, @WebListner ë¥¼ ì§€ì›í•˜ì§€ ì•Šê¸° ë•Œë¬¸ì— ë‚´ìž¥ì»¨í…Œì´ë„ˆì— ì˜ì¡´í•˜ëŠ” ìŠ¤í”„ë§ë¶€íŠ¸ëŠ” ì„¸ë¡œìš´ ì–´ë…¸í…Œì´ì…˜ì¸ @ServletComponentScamì„ ì‚¬ìš©í•œë‹¤.
+@ServletComponentScanÀº ¾î´À configuration¾øÀÌ »ç¿ëÇÒ ¼ö ÀÖ´Âµ¥ ±× ÀÌÀ¯´Â ³»ÀåµÈ ¼­ºí·¿ÄÁÅ×ÀÌ³Ê¶§¹®ÀÌ´Ù. ÀÓº£µðµå ÄÁÅ×ÀÌ³ÊµéÀº @WebServlet, @WebFilter, @WebListner ¸¦ Áö¿øÇÏÁö ¾Ê±â ¶§¹®¿¡ ³»ÀåÄÁÅ×ÀÌ³Ê¿¡ ÀÇÁ¸ÇÏ´Â ½ºÇÁ¸µºÎÆ®´Â ¼¼·Î¿î ¾î³ëÅ×ÀÌ¼ÇÀÎ @ServletComponentScamÀ» »ç¿ëÇÑ´Ù.
 ```java
 package hello.servlet;
 
@@ -14,7 +14,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 
-@ServletComponentScan // ì„œë¸”ë¦¿ ìžë™ ë“±ë¡
+@ServletComponentScan // ¼­ºí¸´ ÀÚµ¿ µî·Ï
 @SpringBootApplication
 public class ServletApplication {
 
@@ -25,9 +25,9 @@ public class ServletApplication {
 }
 ```
 
-ë©”ì¸í´ëž˜ìŠ¤ì— `@ServletComponentScan` ì„ ì‚¬ìš©í•˜ë©´ application.class í•˜ìœ„ì˜ íŒ¨í‚¤ì§€ë“¤ì—ì„œ ëª¨ë‘ ì‚¬ìš©í•  ìˆ˜ ìžˆë‹¤. 
+¸ÞÀÎÅ¬·¡½º¿¡ `@ServletComponentScan` À» »ç¿ëÇÏ¸é application.class ÇÏÀ§ÀÇ ÆÐÅ°Áöµé¿¡¼­ ¸ðµÎ »ç¿ëÇÒ ¼ö ÀÖ´Ù. 
 
-HTTP ìš”ì²­ì´ ì˜¤ë©´ WASê°€ request, response ê°ì²´ë¥¼ ë§Œë“¤ì–´ì„œ ì„œë¸”ë ›ì—ê²Œ ì „ë‹¬í•œë‹¤.
+HTTP ¿äÃ»ÀÌ ¿À¸é WAS°¡ request, response °´Ã¼¸¦ ¸¸µé¾î¼­ ¼­ºí·¿¿¡°Ô Àü´ÞÇÑ´Ù.
 
 ```java
 @WebServlet(name = "helloServlet", urlPatterns = "/hello")
@@ -44,54 +44,54 @@ public class HelloServlet extends HttpServlet {
 
         response.setContentType("text/plane");
         response.setCharacterEncoding("utf-8");
-        //ì•„ëž˜ ì½”ë“œë¥¼ ì‚¬ìš©í•˜ì—¬ response ê°ì²´ì— ê°’ì„ ëŒ€ìž…í•  ìˆ˜ ìžˆë‹¤.
+        //¾Æ·¡ ÄÚµå¸¦ »ç¿ëÇÏ¿© response °´Ã¼¿¡ °ªÀ» ´ëÀÔÇÒ ¼ö ÀÖ´Ù.
         response.getWriter().write("hello" + username);
 
     }
 }
 ```
 
-`@WebServlet`ì„ ì‚¬ìš©í•˜ì—¬ HTTPìš”ì²­ì„ í†µí•´ ë§¤í•‘ëœ URLì´ í˜¸ì¶œë˜ë©´ ì„œë¸”ë¦¿ ì»¨í…Œì´ë„ˆëŠ” ` protected void service(HttpServletRequest request, HttpServletResponse response)` ë©”ì„œë“œë¥¼ ìžë™ìœ¼ë¡œ í˜¸ì¶œí•œë‹¤. 
+`@WebServlet`À» »ç¿ëÇÏ¿© HTTP¿äÃ»À» ÅëÇØ ¸ÅÇÎµÈ URLÀÌ È£ÃâµÇ¸é ¼­ºí¸´ ÄÁÅ×ÀÌ³Ê´Â ` protected void service(HttpServletRequest request, HttpServletResponse response)` ¸Þ¼­µå¸¦ ÀÚµ¿À¸·Î È£ÃâÇÑ´Ù. 
 
-## Servlet container ë™ìž‘ ë°©ì‹
+## Servlet container µ¿ÀÛ ¹æ½Ä
 
 <img width="659" alt="image" src="https://user-images.githubusercontent.com/43670838/209827848-9a6f703f-3e77-41bf-ac95-ef192a685fd4.png">
 
-ìŠ¤í”„ë§ë¶€íŠ¸ë¡œ ìƒì„±í•œ applicationì„ ì‹¤í–‰í•˜ë©´ ë‚´ìž¥í†°ìº£ë²„ì„œê°€ ì„œë¸”ë¦¿ ì»¨í…Œì´ë„ˆë¥¼ ë„ì›Œì¤€ë‹¤. 
-ê·¸ í›„, ì›¹ì—ì„œ WASë¥¼ í†µí•´ requestë¥¼ ë³´ë‚´ë©´ WASëŠ” ìžë™ìœ¼ë¡œ request, response ê°ì²´ë¥¼ ìƒì„±í•´ì„œ urlì—ë”°ë¼ servletì„ ì‹¤í–‰í•˜ê³  responseì— valueë¥¼ ì„¸íŒ…í•˜ì—¬ ì›¹ì—ê²Œ ë‚´ë ¤ì¤€ë‹¤. 
+½ºÇÁ¸µºÎÆ®·Î »ý¼ºÇÑ applicationÀ» ½ÇÇàÇÏ¸é ³»ÀåÅèÄ¹¹ö¼­°¡ ¼­ºí¸´ ÄÁÅ×ÀÌ³Ê¸¦ ¶ç¿öÁØ´Ù. 
+±× ÈÄ, À¥¿¡¼­ WAS¸¦ ÅëÇØ request¸¦ º¸³»¸é WAS´Â ÀÚµ¿À¸·Î request, response °´Ã¼¸¦ »ý¼ºÇØ¼­ url¿¡µû¶ó servletÀ» ½ÇÇàÇÏ°í response¿¡ value¸¦ ¼¼ÆÃÇÏ¿© À¥¿¡°Ô ³»·ÁÁØ´Ù. 
 
 
 ## HttpServletRequest
-HTTPìš”ì²­ ë©”ì‹œì§€ íŒŒì‹±ì„ íŽ¸ë¦¬í•˜ê²Œ ì‚¬ìš©í•  ìˆ˜ ìžˆë„ë¡ ê°œë°œìž ëŒ€ì‹ ì— HTTPìš”ì²­ ë©”ì‹œì§€ë¥¼ íŒŒì‹±í•œë‹¤. ê·¸ ê²°ê³¼ë¥¼ HttpServletRequestê°ì²´ì— ë‹´ì•„ì„œ ì œê³µí•œë‹¤. 
+HTTP¿äÃ» ¸Þ½ÃÁö ÆÄ½ÌÀ» Æí¸®ÇÏ°Ô »ç¿ëÇÒ ¼ö ÀÖµµ·Ï °³¹ßÀÚ ´ë½Å¿¡ HTTP¿äÃ» ¸Þ½ÃÁö¸¦ ÆÄ½ÌÇÑ´Ù. ±× °á°ú¸¦ HttpServletRequest°´Ã¼¿¡ ´ã¾Æ¼­ Á¦°øÇÑ´Ù. 
 
-` ìž„ì‹œ ì €ìž¥ì†Œ `ê¸°ëŠ¥ì„ ì œê³µí•œë‹¤. 
-HTTP ë©”ì‹œì§€ìš”ì²­ì´ ë“¤ì–´ì™€ ì‘ë‹µì„ ë³´ë‚´ê¸°ê¹Œì§€ê°€ HttpServletRequestê°ì²´ì˜ ìƒì¡´ê¸°ê°„ì¸ë° ê·¸ë™ì•ˆ request.setAttribute, request.getAttributeë¥¼ ì‚¬ìš©í•˜ì—¬ ê°’ì„ ì €ìž¥ ì¡°íšŒ í•  ìˆ˜ ìžˆë‹¤. 
+` ÀÓ½Ã ÀúÀå¼Ò `±â´ÉÀ» Á¦°øÇÑ´Ù. 
+HTTP ¸Þ½ÃÁö¿äÃ»ÀÌ µé¾î¿Í ÀÀ´äÀ» º¸³»±â±îÁö°¡ HttpServletRequest°´Ã¼ÀÇ »ýÁ¸±â°£ÀÎµ¥ ±×µ¿¾È request.setAttribute, request.getAttribute¸¦ »ç¿ëÇÏ¿© °ªÀ» ÀúÀå Á¶È¸ ÇÒ ¼ö ÀÖ´Ù. 
 
 
 
 ## JSP
-servletë§Œ ì‚¬ìš©í•˜ê²Œ ë˜ë©´ ì•„ëž˜ ì‚¬ì§„ê³¼ ê°™ì€ ìžë°”ì½”ë“œì— htmlì„ ì‚¬ìš©í•´ì•¼ ë˜ëŠ” ë”ì°í•œ ìƒí™©ì´ ë°œìƒí•˜ê²Œëœë‹¤. ì™œ ë”ì°í•˜ëƒë©´ html íƒœê·¸ë¥¼ ì‚¬ìš©í•˜ë©´ì„œ ì˜¤íƒ€ê°€ ë°œìƒí•  í™•ë¥ ì´ ë†’ê³  ë‹¤ë¥¸ ê°œë°œìžë“¤ì´ ì´ ì½”ë“œë¥¼ ë³´ê³  ì–´ë–¤ í™”ë©´ì¸ì§€ íŒŒì•…í•˜ê¸° íž˜ë“¤ê¸° ë•Œë¬¸ì— ê°€ë…ì„±ë„ í˜„ì €ížˆ ë–¨ì–´ì§€ê²Œ ëœë‹¤. ë”°ë¼ì„œ ì´ëŸ° ë¶ˆíŽ¸í•¨ì„ í•´ì†Œí•˜ê¸°ìœ„í•´ jsp ë¥¼ ì‚¬ìš© í•œë‹¤.
+servlet¸¸ »ç¿ëÇÏ°Ô µÇ¸é ¾Æ·¡ »çÁø°ú °°Àº ÀÚ¹ÙÄÚµå¿¡ htmlÀ» »ç¿ëÇØ¾ß µÇ´Â ²ûÂïÇÑ »óÈ²ÀÌ ¹ß»ýÇÏ°ÔµÈ´Ù. ¿Ö ²ûÂïÇÏ³Ä¸é html ÅÂ±×¸¦ »ç¿ëÇÏ¸é¼­ ¿ÀÅ¸°¡ ¹ß»ýÇÒ È®·üÀÌ ³ô°í ´Ù¸¥ °³¹ßÀÚµéÀÌ ÀÌ ÄÚµå¸¦ º¸°í ¾î¶² È­¸éÀÎÁö ÆÄ¾ÇÇÏ±â Èûµé±â ¶§¹®¿¡ °¡µ¶¼ºµµ ÇöÀúÈ÷ ¶³¾îÁö°Ô µÈ´Ù. µû¶ó¼­ ÀÌ·± ºÒÆíÇÔÀ» ÇØ¼ÒÇÏ±âÀ§ÇØ jsp ¸¦ »ç¿ë ÇÑ´Ù.
 ![image](https://user-images.githubusercontent.com/43670838/212692640-0c2683f3-9727-4198-95aa-b0ea2308a5d8.png)
 
 ```
-build.gradle ì˜ì¡´ì„± ì£¼ìž…
+build.gradle ÀÇÁ¸¼º ÁÖÀÔ
 implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
 implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api'
 ```
 
-###  JSP ë¬¸ë²•
+###  JSP ¹®¹ý
 ```jsp
-<!--> html íƒœê·¸ ìœ„ì— ì•„ëž˜ ì½”ë“œ í•„ìˆ˜ </-->
+<!--> html ÅÂ±× À§¿¡ ¾Æ·¡ ÄÚµå ÇÊ¼ö </-->
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<!-->java ì½”ë“œ import </-->
+<!-->java ÄÚµå import </-->
 <%@ page import="hello.servlet.domain.member.Member" %>
 <%@ page import="hello.servlet.domain.member.MemberRepository" %>
 
-<!-->java ì½”ë“œ </-->
+<!-->java ÄÚµå </-->
 
 <%
-    //request, response ì‚¬ìš© ê°€ëŠ¥
+    //request, response »ç¿ë °¡´É
     MemberRepository memberRepository = MemberRepository.getInstance();
 
     System.out.println("MemberSaveServlet.service");
@@ -100,18 +100,18 @@ implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api'
 %>
 
 ```
-jspì— java ì½”ë“œë¥¼ ìž‘ì„±í•˜ë©´ ìžë™ìœ¼ë¡œ servletìœ¼ë¡œ ë³€í™˜ë˜ì–´ HttpServletì˜  request, responseë¥¼ ì‚¬ìš©í•  ìˆ˜ ìžˆë‹¤.
+jsp¿¡ java ÄÚµå¸¦ ÀÛ¼ºÇÏ¸é ÀÚµ¿À¸·Î servletÀ¸·Î º¯È¯µÇ¾î HttpServletÀÇ  request, response¸¦ »ç¿ëÇÒ ¼ö ÀÖ´Ù.
 
 
-í•˜ì§€ë§Œ jspë„ ë¶ˆì™„ì „í•˜ë‹¤. ì½”ë“œë¥¼ ë³´ë©´ javaì½”ë“œ, ë°ì´í„°ë¥¼ ì¡°íšŒí•˜ëŠ” ë ˆí¬ì§€í† ë¦¬ ë“± ë‹¤ì–‘í•œ ì½”ë“œê°€ ëª¨ë‘ JSPì— ë…¸ì¶œë˜ì–´ìžˆë”°. jspê°€ ë„ˆë¬´ ë§Žì€ ì—­í• ì„í•˜ë©° ìœ ì§€ë³´ìˆ˜ ì¸¡ë©´ì—ì„œë„ í•œ íŒŒì¼ì˜ í¬ê¸°ê°€ êµ‰ìž¥ížˆ ì»¤ì§ˆ ìˆ˜ ìžˆë”°. ì´ëŸ¬í•œ ë¬¸ì œë¥¼ í•´ê²°í•˜ê¸° ìœ„í•´ì„œ ë¹„ì¦ˆë‹ˆìŠ¤ ë¡œì§ì€ ì„œë¸”ë¦¿ ì²˜ëŸ¼ ë‹¤ë¥¸ê³ ì…ì„œ ì²˜ë¦¬í•˜ê³ , JSP ëŠ” ëª©ì ì— ë§žê²Œ HTMLë¡œ viewë¥¼ ê·¸ë¦¬ëŠ” ì¼ì— ì§‘ì¤‘í•˜ë„ë¡ `MVC` íŒ¨í„´ì´ ë“±ìž¥í–ˆë‹¤.
+ÇÏÁö¸¸ jspµµ ºÒ¿ÏÀüÇÏ´Ù. ÄÚµå¸¦ º¸¸é javaÄÚµå, µ¥ÀÌÅÍ¸¦ Á¶È¸ÇÏ´Â ·¹Æ÷ÁöÅä¸® µî ´Ù¾çÇÑ ÄÚµå°¡ ¸ðµÎ JSP¿¡ ³ëÃâµÇ¾îÀÖµû. jsp°¡ ³Ê¹« ¸¹Àº ¿ªÇÒÀ»ÇÏ¸ç À¯Áöº¸¼ö Ãø¸é¿¡¼­µµ ÇÑ ÆÄÀÏÀÇ Å©±â°¡ ±²ÀåÈ÷ Ä¿Áú ¼ö ÀÖµû. ÀÌ·¯ÇÑ ¹®Á¦¸¦ ÇØ°áÇÏ±â À§ÇØ¼­ ºñÁî´Ï½º ·ÎÁ÷Àº ¼­ºí¸´ Ã³·³ ´Ù¸¥°í¼Ä¼­ Ã³¸®ÇÏ°í, JSP ´Â ¸ñÀû¿¡ ¸Â°Ô HTML·Î view¸¦ ±×¸®´Â ÀÏ¿¡ ÁýÁßÇÏµµ·Ï `MVC` ÆÐÅÏÀÌ µîÀåÇß´Ù.
 
-## MVC íŒ¨í„´
-` ë³€ê²½ì˜ ë¼ì´í”„ ì‚¬ì´í´` UI ì¼ë¶€ ìˆ˜ì •í•˜ëŠ” ì¼ê³¼ ë¹„ìŠ¤ë‹ˆìŠ¤ ë¡œì§ì„ ìˆ˜ì •í•˜ëŠ” ì¼ì€ ê°ê°€ ë‹¤ë¥´ê²Œ ë°œìƒí•  ê°€ëŠ¥ì„±ì´ ë†’ê³ ì„œë¡œ ëŒ€ë¶€ë¶„ ì˜í–¥ì„ ì£¼ì§€ ì•ˆí”ë‹¤. ì´ë ‡ê²Œ ë³€ê²½ì˜ ë¼ì´í”„ ì‚¬ì´í´ì´ ë‹¤ë¥¸ ë¶€ë¶„ì„ í•˜ë‚˜ì˜ ì½”ë“œë¡œ ê´€ë¦¬í•˜ëŠ”ê²ƒì€ ìœ ì§€ë³´ìˆ˜í•˜ê¸° ì¢‹ì§€ ì•Šë‹¤. 
-` ê¸°ëŠ¥ íŠ¹í™”` JSP ê°™ì€ ë·° í…œí”Œë¦¿ì„ í™”ë©´ì„ ë Œë”ë§ í•˜ëŠ”ë° ìµœì í™” ë˜ì–´ìžˆê¸° ë•Œë¬¸ì— ì´ ë¶€ë¶„ì˜ ì—…ë¬´ë§Œ ë‹´ë‹¹í•˜ëŠ”ê²ƒì´ ê°€ìž¥ íš¨ê³¼ì ì´ë‹¤.
+## MVC ÆÐÅÏ
+` º¯°æÀÇ ¶óÀÌÇÁ »çÀÌÅ¬` UI ÀÏºÎ ¼öÁ¤ÇÏ´Â ÀÏ°ú ºñ½º´Ï½º ·ÎÁ÷À» ¼öÁ¤ÇÏ´Â ÀÏÀº °¢°¡ ´Ù¸£°Ô ¹ß»ýÇÒ °¡´É¼ºÀÌ ³ô°í¼­·Î ´ëºÎºÐ ¿µÇâÀ» ÁÖÁö ¾ÈÈç´Ù. ÀÌ·¸°Ô º¯°æÀÇ ¶óÀÌÇÁ »çÀÌÅ¬ÀÌ ´Ù¸¥ ºÎºÐÀ» ÇÏ³ªÀÇ ÄÚµå·Î °ü¸®ÇÏ´Â°ÍÀº À¯Áöº¸¼öÇÏ±â ÁÁÁö ¾Ê´Ù. 
+` ±â´É Æ¯È­` JSP °°Àº ºä ÅÛÇÃ¸´À» È­¸éÀ» ·»´õ¸µ ÇÏ´Âµ¥ ÃÖÀûÈ­ µÇ¾îÀÖ±â ¶§¹®¿¡ ÀÌ ºÎºÐÀÇ ¾÷¹«¸¸ ´ã´çÇÏ´Â°ÍÀÌ °¡Àå È¿°úÀûÀÌ´Ù.
 
-`Controller` HTTP ìš”ì²­ì„ ë°›ì•„ì„œ íŒŒë¼ë¯¸í„°ë¥¼ ê²€ì¦í•˜ê³  ë¹„ì¦ˆë‹ˆìŠ¤ ë¡œì§ ì‹œí–‰. ë·°ì— ì „ë‹¬í•  ê²°ê³¼ ë°ì´í„°ë¥¼ ë°›ì•„ì„œ ëª¨ë¸ì— ë‹µëŠ”ë‹¤. 
-`Model`: ë·°ì— ì¶œë ¥í•  ë°ì´í„¸ë¥´ ë‹´ì•„ë‘”ë‹¤. ë·°ê°€ í•„ìš”í•œ ë°ì´í„°ë¥¼ ëª¨ë‘ ëª¨ë¸ì— ë‹´ì•„ì„œ ì „ë‹¬í•´ì£¼ëŠ” ë•ë¶„ì— ë·°ëŠ” ë¹„ì¦ˆë‹ˆìŠ¤ ë¡œì§ì´ë‹¤. 
-`View`: ëª¨ë¸ì— ë‹´ê²¨ìžˆëŠ” ë°ì´í„°ë¥¼ ì‚¬ìš©í•´ì„œ í™”ë©´ì„ ê·¸ë¦¬ëŠ” ì¼ì— ì§‘ì¤‘í•œë‹¤.
+`Controller` HTTP ¿äÃ»À» ¹Þ¾Æ¼­ ÆÄ¶ó¹ÌÅÍ¸¦ °ËÁõÇÏ°í ºñÁî´Ï½º ·ÎÁ÷ ½ÃÇà. ºä¿¡ Àü´ÞÇÒ °á°ú µ¥ÀÌÅÍ¸¦ ¹Þ¾Æ¼­ ¸ðµ¨¿¡ ´ä´Â´Ù. 
+`Model`: ºä¿¡ Ãâ·ÂÇÒ µ¥ÀÌÅÐ¸£ ´ã¾ÆµÐ´Ù. ºä°¡ ÇÊ¿äÇÑ µ¥ÀÌÅÍ¸¦ ¸ðµÎ ¸ðµ¨¿¡ ´ã¾Æ¼­ Àü´ÞÇØÁÖ´Â ´öºÐ¿¡ ºä´Â ºñÁî´Ï½º ·ÎÁ÷ÀÌ´Ù. 
+`View`: ¸ðµ¨¿¡ ´ã°ÜÀÖ´Â µ¥ÀÌÅÍ¸¦ »ç¿ëÇØ¼­ È­¸éÀ» ±×¸®´Â ÀÏ¿¡ ÁýÁßÇÑ´Ù.
 
 ```java
 @WebServlet(name = "mvcMemberFormServlet", urlPatterns = "/servlet-mvc/members/new-form")
@@ -124,26 +124,29 @@ public class MvcMemberFormFServlet extends HttpServlet {
     }
 }
 ```
-`dispatcher.forward()` :  ë‹¤ë¥¸ ì„œë¸”ë¦¿ì´ë‚˜ jspë¡œ ì´ë™í• ìˆ˜ ìžˆëŠ” ê¸°ëŠ¥ì´ë©° ì„œë²„ë‚´ë¶€ì—ì„œ ìž¬í˜¸ì¶œì´ ë°œìƒí•œë‹¤. 
-`/WEB-INF`: ì´ ê²½ë¡œì•ˆì— JSPê°€ ìžˆìœ¼ë©´ ì™¸ë¶€ì—ì„œ ì§ì ‘  JSP í˜¸ì¶œí•  ìˆ˜ ì—†ë‹¤. 
+`dispatcher.forward()` :  ´Ù¸¥ ¼­ºí¸´ÀÌ³ª jsp·Î ÀÌµ¿ÇÒ¼ö ÀÖ´Â ±â´ÉÀÌ¸ç ¼­¹ö³»ºÎ¿¡¼­ ÀçÈ£ÃâÀÌ ¹ß»ýÇÑ´Ù. 
+`/WEB-INF`: ÀÌ °æ·Î¾È¿¡ JSP°¡ ÀÖÀ¸¸é ¿ÜºÎ¿¡¼­ Á÷Á¢  JSP È£ÃâÇÒ ¼ö ¾ø´Ù. 
 
 `redirect vs forward`
-ë¦¬ë‹¤ì´ë ‰ã„¹íŠ¸ëŠ” ì‹¤ì œ í´ë¼ì´ì–¸íŠ¸ì— ì‘ë‹¤ë¹™ ë‚˜ê°“ë‹¤ê°€, í´ë¼ì´ì–¸íŠ¸ê°€ redirectê²½ë¡œë¡œ ìž¬ìš”ì²­í•œë‹¤. ë”°ë¼ì„œ í´ë¼ì—ì„œ ì¸ì§€í•  ìˆ˜ ìžˆê³  url ê²½ë¡œë„ ì‹¤ì œ ë³€ã„±ì—¬ëœë‹¤. ë°˜ë©´ í¬ì›Œë“œëŠ” ì„œë²„ ë‚´ë¶€ì—ì„œ ì¼ì–´ë‚˜ëŠ í˜¸ì¶œì´ê¸° ë•Œë¬¸ì— í´ë¼ê°€ ì¸ì§€í•˜ì§€ ëª»í•œë‹¤.
+¸®´ÙÀÌ·º¤©Æ®´Â ½ÇÁ¦ Å¬¶óÀÌ¾ðÆ®¿¡ ÀÀ´Ùºù ³ª°«´Ù°¡, Å¬¶óÀÌ¾ðÆ®°¡ redirect°æ·Î·Î Àç¿äÃ»ÇÑ´Ù. µû¶ó¼­ Å¬¶ó¿¡¼­ ÀÎÁöÇÒ ¼ö ÀÖ°í url °æ·Îµµ ½ÇÁ¦ º¯¤¡¿©µÈ´Ù. ¹Ý¸é Æ÷¿öµå´Â ¼­¹ö ³»ºÎ¿¡¼­ ÀÏ¾î³ª´À È£ÃâÀÌ±â ¶§¹®¿¡ Å¬¶ó°¡ ÀÎÁöÇÏÁö ¸øÇÑ´Ù.
 
-## MVC í•œê³„
-ì»¨íŠ¸ë¡œëŸ¬ëŠ” ì¤‘ë³µì´ ë§Žê³  í”¼ìš”í•˜ì§€ ì•Šì€ ì½”ë“œê°€ ë§Žë‹¤. 
+## MVC ÇÑ°è
+ÄÁÆ®·Î·¯´Â Áßº¹ÀÌ ¸¹°í ÇÇ¿äÇÏÁö ¾ÊÀº ÄÚµå°¡ ¸¹´Ù. 
 
-`í¬ì›Œë“œ ì¤‘ë³µ` 
-Viewë¡œ ì´ë™í•˜ëŠ” ì½”ë“œê°€ ì¤‘ë³µí˜¸ì¶œëœë‹¤. ë©”ì„œë“œë¡œ ê³µí†µí™”í•´ë„ ë˜ì§€ë§Œ í•´ë‹¹ ë©”ì„œë“œë„ í•­ìƒ ì§ì ‘ í˜¸ì¶œí•´ì•¼í•œë‹¤. 
+`Æ÷¿öµå Áßº¹` 
+View·Î ÀÌµ¿ÇÏ´Â ÄÚµå°¡ Áßº¹È£ÃâµÈ´Ù. ¸Þ¼­µå·Î °øÅëÈ­ÇØµµ µÇÁö¸¸ ÇØ´ç ¸Þ¼­µåµµ Ç×»ó Á÷Á¢ È£ÃâÇØ¾ßÇÑ´Ù. 
 ```java
         RequestDispatcher dispatcher = request.getRequestDispatcher(viewPath);
         dispatcher.forward(request,response);
 ```
 
-`viewPath ì¤‘ë³µ`
+`viewPath Áßº¹`
 ```java
     String viewPath = "/WEB-INF/views/members.jsp";
 ```
-viewPath ì—ì„œ jspê°€ ì•„ë‹ˆë¼ thymeleafê°™ì€ ë‹¤ë¥¸ ë·°ë¡œ ë³€ê²½í•œë‹¤ë©´ ì „ì²´ ì½”ë“œë¥¼ ë‹¤ ë³€ê²½í•´ì•¼í•œë‹¤. 
+viewPath ¿¡¼­ jsp°¡ ¾Æ´Ï¶ó thymeleaf°°Àº ´Ù¸¥ ºä·Î º¯°æÇÑ´Ù¸é ÀüÃ¼ ÄÚµå¸¦ ´Ù º¯°æÇØ¾ßÇÑ´Ù. 
 
-ê¸°ëŠ¥ì´ ë³µìž¡í•´ ì§ˆìˆ˜ë¡ ì»¨íŠ¸ë¡¤ëŸ¬ì—ì„œ ê³µí†µìœ¼ë¡œ ì²˜ë¦¬í–ì•„ í•˜ëŠ” ë¶€ë¶„ì´ ì ì  ë” ë§Žì´ ì¦ê°€í•  ê²ƒì´ë‹¤. ë‹¨ìˆœížˆ ê³µí†µ ê¸°ëŠ¥ì„ ë©”ì„œë“œë¡œ ë½‘ìœ¼ë©´ ë  ê²ƒ ê°™ì§€ë§Œ, ê²°ê³¼ì ìœ¼ë¡œ í•´ë‹¹ ë©”ì„œë“œë¥¼ í•­ìƒ í˜¸ì¶œí•´ì•¼ í•˜ê³  ì‹¤ìˆ˜ë¡œ í˜¸ì¶œí•˜ì§€ ì•Šìœ¼ë©´ ë¬¸ì œê°€ëœë‹¤. ë˜í•œ í˜¸ì¶œí•˜ëŠ”ê²ƒ ìžì²´ê°€ ì¤‘ë³µì´ë‹¤. 
+±â´ÉÀÌ º¹ÀâÇØ Áú¼ö·Ï ÄÁÆ®·Ñ·¯¿¡¼­ °øÅëÀ¸·Î Ã³¸®Çá¾Æ ÇÏ´Â ºÎºÐÀÌ Á¡Á¡ ´õ ¸¹ÀÌ Áõ°¡ÇÒ °ÍÀÌ´Ù. ´Ü¼øÈ÷ °øÅë ±â´ÉÀ» ¸Þ¼­µå·Î »ÌÀ¸¸é µÉ °Í °°Áö¸¸, °á°úÀûÀ¸·Î ÇØ´ç ¸Þ¼­µå¸¦ Ç×»ó È£ÃâÇØ¾ß ÇÏ°í ½Ç¼ö·Î È£ÃâÇÏÁö ¾ÊÀ¸¸é ¹®Á¦°¡µÈ´Ù. ¶ÇÇÑ È£ÃâÇÏ´Â°Í ÀÚÃ¼°¡ Áßº¹ÀÌ´Ù. 
+
+
+## ViewResolver
