@@ -154,3 +154,29 @@ viewPath 에서 jsp가 아니라 thymeleaf같은 다른 뷰로 변경한다면 전체 코드를 다 변�
 - 기존 코드를 재사용하기위해 내적, 외적 구조를 변환하는 작업을 처리하며 인터페이스를 처리하고 인터페이스를 활용해 보정코드를 사용한다. 
 기능상 문제 이 동작하는 코드가 단지 인터페이스 차이 때문에 사용할 수 없는 경우 많이 응용되는 패턴이다. 
 - 오래된 레거시 코드나 라이브러리ㅡㄹ 재사용할 때 유용한 패턴이다. 서로 호환되지 않는 인터페이스를 가진 코드를 결함하여 응용 프로그램에서 동작할 수 있도록 도와준다.
+
+## DispatcherServlet 살펴보기
+스프링 MVC도 프론트컨트롤러 패턴으로 구현되어있따. 
+스프링 MVC 컨트롤러가 바로 DispatcherSErvlet이다. 
+이 DispatcherServlet이 바로 MVC의 핵심이다. 
+
+스프링 부트는 dispatcherServlet을 서블릿으로 자동으로 등록하면서 모든경로`urlPatters="/"` 에 대해서 매핑한다. 
+
+*요청흐름*
+- 서블릿이 호출되먼 `HttpServlet` 이 제공하는 service() 가 호출된다. 
+- 스프링 MVC는 dispatcherSErvlet의 부모인 FrameworkServlet에서 service()를 오버라이드 해두었다. 
+- service())를 시작으로 `DispatcherServlet.doDispatch() 가 호출된다. 
+
+*동작 순서*
+1. 핸들러 조회 : 핸들러 매핑을 통해 요청 URL에 매핑된 핸들러를 조회한다. 
+2. 핸들러 어댑터 조회 : 핸들러를 실행할 수 있는 핸들러 어댑터를 조회.
+3. 핸들러 어댑터 실행 : 핸들러 어댑터를 실행한다.
+4. 핸들러 실행 : 핸들러 어댑터가 실제 핸들러를 실행한다. 
+5. Model And View 반환 : 핸들러 어댑터는 핸들러가 반환하는 정보를 ModelandView로 변환해서 반환한다. 
+6. viewResolver 호출 : 뷰리졸버를 찾고 실행한다. 
+- jsp는 `InternalResourceViewReslover` 가 자동 등록되고 사용된다. 
+7. View 반환 : 뷰리졸버는 뷰의 논리이름을 물리 이름으로 바꾸고 렌더링 역할을 담당하는 뷰 객체를 반환한다. 
+8. 뷰 렌덜링 : 뷰를 통해서 뷰를 렌더링 한다.
+![image](https://user-images.githubusercontent.com/43670838/221402899-67df3345-5cbc-4263-b17f-723d5644dca8.png)
+
+
