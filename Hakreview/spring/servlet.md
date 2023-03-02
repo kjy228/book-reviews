@@ -1,12 +1,12 @@
 # Servlet
 
-ìŠ¤í”„ë§ë¶€íŠ¸ë¥¼ ì‚¬ìš©í•˜ì—¬ í†°ìº£ì„œë²„ë¥¼ ë‚´ì¥í™”ë¥¼ í†µí•´ ì„œë¸”ë¦¿ì½”ë“œ ì‹¤í–‰
+½ºÇÁ¸µºÎÆ®¸¦ »ç¿ëÇÏ¿© ÅèÄ¹¼­¹ö¸¦ ³»ÀåÈ­¸¦ ÅëÇØ ¼­ºí¸´ÄÚµå ½ÇÇà
 
-## Annotation ì •ë¦¬
+## Annotation Á¤¸®
 ### @ServletComponentScan
-[ì°¸ê³ ]https://www.baeldung.com/spring-servletcomponentscan
+[Âü°í]https://www.baeldung.com/spring-servletcomponentscan
 
-@ServletComponentScanì€ ì–´ëŠ configurationì—†ì´ ì‚¬ìš©í•  ìˆ˜ ìˆëŠ”ë° ê·¸ ì´ìœ ëŠ” ë‚´ì¥ëœ ì„œë¸”ë ›ì»¨í…Œì´ë„ˆë•Œë¬¸ì´ë‹¤. ì„ë² ë””ë“œ ì»¨í…Œì´ë„ˆë“¤ì€ @WebServlet, @WebFilter, @WebListner ë¥¼ ì§€ì›í•˜ì§€ ì•Šê¸° ë•Œë¬¸ì— ë‚´ì¥ì»¨í…Œì´ë„ˆì— ì˜ì¡´í•˜ëŠ” ìŠ¤í”„ë§ë¶€íŠ¸ëŠ” ì„¸ë¡œìš´ ì–´ë…¸í…Œì´ì…˜ì¸ @ServletComponentScamì„ ì‚¬ìš©í•œë‹¤.
+@ServletComponentScanÀº ¾î´À configuration¾øÀÌ »ç¿ëÇÒ ¼ö ÀÖ´Âµ¥ ±× ÀÌÀ¯´Â ³»ÀåµÈ ¼­ºí·¿ÄÁÅ×ÀÌ³Ê¶§¹®ÀÌ´Ù. ÀÓº£µğµå ÄÁÅ×ÀÌ³ÊµéÀº @WebServlet, @WebFilter, @WebListner ¸¦ Áö¿øÇÏÁö ¾Ê±â ¶§¹®¿¡ ³»ÀåÄÁÅ×ÀÌ³Ê¿¡ ÀÇÁ¸ÇÏ´Â ½ºÇÁ¸µºÎÆ®´Â ¼¼·Î¿î ¾î³ëÅ×ÀÌ¼ÇÀÎ @ServletComponentScamÀ» »ç¿ëÇÑ´Ù.
 ```java
 package hello.servlet;
 
@@ -14,7 +14,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 
-@ServletComponentScan // ì„œë¸”ë¦¿ ìë™ ë“±ë¡
+@ServletComponentScan // ¼­ºí¸´ ÀÚµ¿ µî·Ï
 @SpringBootApplication
 public class ServletApplication {
 
@@ -25,9 +25,9 @@ public class ServletApplication {
 }
 ```
 
-ë©”ì¸í´ë˜ìŠ¤ì— `@ServletComponentScan` ì„ ì‚¬ìš©í•˜ë©´ application.class í•˜ìœ„ì˜ íŒ¨í‚¤ì§€ë“¤ì—ì„œ ëª¨ë‘ ì‚¬ìš©í•  ìˆ˜ ìˆë‹¤. 
+¸ŞÀÎÅ¬·¡½º¿¡ `@ServletComponentScan` À» »ç¿ëÇÏ¸é application.class ÇÏÀ§ÀÇ ÆĞÅ°Áöµé¿¡¼­ ¸ğµÎ »ç¿ëÇÒ ¼ö ÀÖ´Ù. 
 
-HTTP ìš”ì²­ì´ ì˜¤ë©´ WASê°€ request, response ê°ì²´ë¥¼ ë§Œë“¤ì–´ì„œ ì„œë¸”ë ›ì—ê²Œ ì „ë‹¬í•œë‹¤.
+HTTP ¿äÃ»ÀÌ ¿À¸é WAS°¡ request, response °´Ã¼¸¦ ¸¸µé¾î¼­ ¼­ºí·¿¿¡°Ô Àü´ŞÇÑ´Ù.
 
 ```java
 @WebServlet(name = "helloServlet", urlPatterns = "/hello")
@@ -44,18 +44,177 @@ public class HelloServlet extends HttpServlet {
 
         response.setContentType("text/plane");
         response.setCharacterEncoding("utf-8");
-        //ì•„ë˜ ì½”ë“œë¥¼ ì‚¬ìš©í•˜ì—¬ response ê°ì²´ì— ê°’ì„ ëŒ€ì…í•  ìˆ˜ ìˆë‹¤.
+        //¾Æ·¡ ÄÚµå¸¦ »ç¿ëÇÏ¿© response °´Ã¼¿¡ °ªÀ» ´ëÀÔÇÒ ¼ö ÀÖ´Ù.
         response.getWriter().write("hello" + username);
 
     }
 }
 ```
 
-`@WebServlet`ì„ ì‚¬ìš©í•˜ì—¬ HTTPìš”ì²­ì„ í†µí•´ ë§¤í•‘ëœ URLì´ í˜¸ì¶œë˜ë©´ ì„œë¸”ë¦¿ ì»¨í…Œì´ë„ˆëŠ” ` protected void service(HttpServletRequest request, HttpServletResponse response)` ë©”ì„œë“œë¥¼ ìë™ìœ¼ë¡œ í˜¸ì¶œí•œë‹¤. 
+`@WebServlet`À» »ç¿ëÇÏ¿© HTTP¿äÃ»À» ÅëÇØ ¸ÅÇÎµÈ URLÀÌ È£ÃâµÇ¸é ¼­ºí¸´ ÄÁÅ×ÀÌ³Ê´Â ` protected void service(HttpServletRequest request, HttpServletResponse response)` ¸Ş¼­µå¸¦ ÀÚµ¿À¸·Î È£ÃâÇÑ´Ù. 
 
-## Servlet container ë™ì‘ ë°©ì‹
+## Servlet container µ¿ÀÛ ¹æ½Ä
 
 <img width="659" alt="image" src="https://user-images.githubusercontent.com/43670838/209827848-9a6f703f-3e77-41bf-ac95-ef192a685fd4.png">
 
-ìŠ¤í”„ë§ë¶€íŠ¸ë¡œ ìƒì„±í•œ applicationì„ ì‹¤í–‰í•˜ë©´ ë‚´ì¥í†°ìº£ë²„ì„œê°€ ì„œë¸”ë¦¿ ì»¨í…Œì´ë„ˆë¥¼ ë„ì›Œì¤€ë‹¤. 
-ê·¸ í›„, ì›¹ì—ì„œ WASë¥¼ í†µí•´ requestë¥¼ ë³´ë‚´ë©´ WASëŠ” ìë™ìœ¼ë¡œ request, response ê°ì²´ë¥¼ ìƒì„±í•´ì„œ urlì—ë”°ë¼ servletì„ ì‹¤í–‰í•˜ê³  responseì— valueë¥¼ ì„¸íŒ…í•˜ì—¬ ì›¹ì—ê²Œ ë‚´ë ¤ì¤€ë‹¤. 
+½ºÇÁ¸µºÎÆ®·Î »ı¼ºÇÑ applicationÀ» ½ÇÇàÇÏ¸é ³»ÀåÅèÄ¹¹ö¼­°¡ ¼­ºí¸´ ÄÁÅ×ÀÌ³Ê¸¦ ¶ç¿öÁØ´Ù. 
+±× ÈÄ, À¥¿¡¼­ WAS¸¦ ÅëÇØ request¸¦ º¸³»¸é WAS´Â ÀÚµ¿À¸·Î request, response °´Ã¼¸¦ »ı¼ºÇØ¼­ url¿¡µû¶ó servletÀ» ½ÇÇàÇÏ°í response¿¡ value¸¦ ¼¼ÆÃÇÏ¿© À¥¿¡°Ô ³»·ÁÁØ´Ù. 
+
+
+## HttpServletRequest
+HTTP¿äÃ» ¸Ş½ÃÁö ÆÄ½ÌÀ» Æí¸®ÇÏ°Ô »ç¿ëÇÒ ¼ö ÀÖµµ·Ï °³¹ßÀÚ ´ë½Å¿¡ HTTP¿äÃ» ¸Ş½ÃÁö¸¦ ÆÄ½ÌÇÑ´Ù. ±× °á°ú¸¦ HttpServletRequest°´Ã¼¿¡ ´ã¾Æ¼­ Á¦°øÇÑ´Ù. 
+
+` ÀÓ½Ã ÀúÀå¼Ò `±â´ÉÀ» Á¦°øÇÑ´Ù. 
+HTTP ¸Ş½ÃÁö¿äÃ»ÀÌ µé¾î¿Í ÀÀ´äÀ» º¸³»±â±îÁö°¡ HttpServletRequest°´Ã¼ÀÇ »ıÁ¸±â°£ÀÎµ¥ ±×µ¿¾È request.setAttribute, request.getAttribute¸¦ »ç¿ëÇÏ¿© °ªÀ» ÀúÀå Á¶È¸ ÇÒ ¼ö ÀÖ´Ù. 
+
+
+
+## JSP
+servlet¸¸ »ç¿ëÇÏ°Ô µÇ¸é ¾Æ·¡ »çÁø°ú °°Àº ÀÚ¹ÙÄÚµå¿¡ htmlÀ» »ç¿ëÇØ¾ß µÇ´Â ²ûÂïÇÑ »óÈ²ÀÌ ¹ß»ıÇÏ°ÔµÈ´Ù. ¿Ö ²ûÂïÇÏ³Ä¸é html ÅÂ±×¸¦ »ç¿ëÇÏ¸é¼­ ¿ÀÅ¸°¡ ¹ß»ıÇÒ È®·üÀÌ ³ô°í ´Ù¸¥ °³¹ßÀÚµéÀÌ ÀÌ ÄÚµå¸¦ º¸°í ¾î¶² È­¸éÀÎÁö ÆÄ¾ÇÇÏ±â Èûµé±â ¶§¹®¿¡ °¡µ¶¼ºµµ ÇöÀúÈ÷ ¶³¾îÁö°Ô µÈ´Ù. µû¶ó¼­ ÀÌ·± ºÒÆíÇÔÀ» ÇØ¼ÒÇÏ±âÀ§ÇØ jsp ¸¦ »ç¿ë ÇÑ´Ù.
+![image](https://user-images.githubusercontent.com/43670838/212692640-0c2683f3-9727-4198-95aa-b0ea2308a5d8.png)
+
+```
+build.gradle ÀÇÁ¸¼º ÁÖÀÔ
+implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api'
+```
+
+###  JSP ¹®¹ı
+```jsp
+<!--> html ÅÂ±× À§¿¡ ¾Æ·¡ ÄÚµå ÇÊ¼ö </-->
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<!-->java ÄÚµå import </-->
+<%@ page import="hello.servlet.domain.member.Member" %>
+<%@ page import="hello.servlet.domain.member.MemberRepository" %>
+
+<!-->java ÄÚµå </-->
+
+<%
+    //request, response »ç¿ë °¡´É
+    MemberRepository memberRepository = MemberRepository.getInstance();
+
+    System.out.println("MemberSaveServlet.service");
+    String username = request.getParameter("username");
+    int age = Integer.parseInt(request.getParameter("age"));
+%>
+
+```
+jsp¿¡ java ÄÚµå¸¦ ÀÛ¼ºÇÏ¸é ÀÚµ¿À¸·Î servletÀ¸·Î º¯È¯µÇ¾î HttpServletÀÇ  request, response¸¦ »ç¿ëÇÒ ¼ö ÀÖ´Ù.
+
+
+ÇÏÁö¸¸ jspµµ ºÒ¿ÏÀüÇÏ´Ù. ÄÚµå¸¦ º¸¸é javaÄÚµå, µ¥ÀÌÅÍ¸¦ Á¶È¸ÇÏ´Â ·¹Æ÷ÁöÅä¸® µî ´Ù¾çÇÑ ÄÚµå°¡ ¸ğµÎ JSP¿¡ ³ëÃâµÇ¾îÀÖµû. jsp°¡ ³Ê¹« ¸¹Àº ¿ªÇÒÀ»ÇÏ¸ç À¯Áöº¸¼ö Ãø¸é¿¡¼­µµ ÇÑ ÆÄÀÏÀÇ Å©±â°¡ ±²ÀåÈ÷ Ä¿Áú ¼ö ÀÖµû. ÀÌ·¯ÇÑ ¹®Á¦¸¦ ÇØ°áÇÏ±â À§ÇØ¼­ ºñÁî´Ï½º ·ÎÁ÷Àº ¼­ºí¸´ Ã³·³ ´Ù¸¥°í¼Ä¼­ Ã³¸®ÇÏ°í, JSP ´Â ¸ñÀû¿¡ ¸Â°Ô HTML·Î view¸¦ ±×¸®´Â ÀÏ¿¡ ÁıÁßÇÏµµ·Ï `MVC` ÆĞÅÏÀÌ µîÀåÇß´Ù.
+
+## MVC ÆĞÅÏ
+` º¯°æÀÇ ¶óÀÌÇÁ »çÀÌÅ¬` UI ÀÏºÎ ¼öÁ¤ÇÏ´Â ÀÏ°ú ºñ½º´Ï½º ·ÎÁ÷À» ¼öÁ¤ÇÏ´Â ÀÏÀº °¢°¡ ´Ù¸£°Ô ¹ß»ıÇÒ °¡´É¼ºÀÌ ³ô°í¼­·Î ´ëºÎºĞ ¿µÇâÀ» ÁÖÁö ¾ÈÈç´Ù. ÀÌ·¸°Ô º¯°æÀÇ ¶óÀÌÇÁ »çÀÌÅ¬ÀÌ ´Ù¸¥ ºÎºĞÀ» ÇÏ³ªÀÇ ÄÚµå·Î °ü¸®ÇÏ´Â°ÍÀº À¯Áöº¸¼öÇÏ±â ÁÁÁö ¾Ê´Ù. 
+` ±â´É Æ¯È­` JSP °°Àº ºä ÅÛÇÃ¸´À» È­¸éÀ» ·»´õ¸µ ÇÏ´Âµ¥ ÃÖÀûÈ­ µÇ¾îÀÖ±â ¶§¹®¿¡ ÀÌ ºÎºĞÀÇ ¾÷¹«¸¸ ´ã´çÇÏ´Â°ÍÀÌ °¡Àå È¿°úÀûÀÌ´Ù.
+
+`Controller` HTTP ¿äÃ»À» ¹Ş¾Æ¼­ ÆÄ¶ó¹ÌÅÍ¸¦ °ËÁõÇÏ°í ºñÁî´Ï½º ·ÎÁ÷ ½ÃÇà. ºä¿¡ Àü´ŞÇÒ °á°ú µ¥ÀÌÅÍ¸¦ ¹Ş¾Æ¼­ ¸ğµ¨¿¡ ´ä´Â´Ù. 
+`Model`: ºä¿¡ Ãâ·ÂÇÒ µ¥ÀÌÅĞ¸£ ´ã¾ÆµĞ´Ù. ºä°¡ ÇÊ¿äÇÑ µ¥ÀÌÅÍ¸¦ ¸ğµÎ ¸ğµ¨¿¡ ´ã¾Æ¼­ Àü´ŞÇØÁÖ´Â ´öºĞ¿¡ ºä´Â ºñÁî´Ï½º ·ÎÁ÷ÀÌ´Ù. 
+`View`: ¸ğµ¨¿¡ ´ã°ÜÀÖ´Â µ¥ÀÌÅÍ¸¦ »ç¿ëÇØ¼­ È­¸éÀ» ±×¸®´Â ÀÏ¿¡ ÁıÁßÇÑ´Ù.
+
+```java
+@WebServlet(name = "mvcMemberFormServlet", urlPatterns = "/servlet-mvc/members/new-form")
+public class MvcMemberFormFServlet extends HttpServlet {
+    @Override
+    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String viewPath = "/WEB-INF/views/new-form.jsp";
+        RequestDispatcher dispatcher = request.getRequestDispatcher(viewPath);
+        dispatcher.forward(request,response);
+    }
+}
+```
+`dispatcher.forward()` :  ´Ù¸¥ ¼­ºí¸´ÀÌ³ª jsp·Î ÀÌµ¿ÇÒ¼ö ÀÖ´Â ±â´ÉÀÌ¸ç ¼­¹ö³»ºÎ¿¡¼­ ÀçÈ£ÃâÀÌ ¹ß»ıÇÑ´Ù. 
+`/WEB-INF`: ÀÌ °æ·Î¾È¿¡ JSP°¡ ÀÖÀ¸¸é ¿ÜºÎ¿¡¼­ Á÷Á¢  JSP È£ÃâÇÒ ¼ö ¾ø´Ù. 
+
+`redirect vs forward`
+¸®´ÙÀÌ·º¤©Æ®´Â ½ÇÁ¦ Å¬¶óÀÌ¾ğÆ®¿¡ ÀÀ´Ùºù ³ª°«´Ù°¡, Å¬¶óÀÌ¾ğÆ®°¡ redirect°æ·Î·Î Àç¿äÃ»ÇÑ´Ù. µû¶ó¼­ Å¬¶ó¿¡¼­ ÀÎÁöÇÒ ¼ö ÀÖ°í url °æ·Îµµ ½ÇÁ¦ º¯¤¡¿©µÈ´Ù. ¹İ¸é Æ÷¿öµå´Â ¼­¹ö ³»ºÎ¿¡¼­ ÀÏ¾î³ª´À È£ÃâÀÌ±â ¶§¹®¿¡ Å¬¶ó°¡ ÀÎÁöÇÏÁö ¸øÇÑ´Ù.
+
+## MVC ÇÑ°è
+ÄÁÆ®·Î·¯´Â Áßº¹ÀÌ ¸¹°í ÇÇ¿äÇÏÁö ¾ÊÀº ÄÚµå°¡ ¸¹´Ù. 
+
+`Æ÷¿öµå Áßº¹` 
+View·Î ÀÌµ¿ÇÏ´Â ÄÚµå°¡ Áßº¹È£ÃâµÈ´Ù. ¸Ş¼­µå·Î °øÅëÈ­ÇØµµ µÇÁö¸¸ ÇØ´ç ¸Ş¼­µåµµ Ç×»ó Á÷Á¢ È£ÃâÇØ¾ßÇÑ´Ù. 
+```java
+        RequestDispatcher dispatcher = request.getRequestDispatcher(viewPath);
+        dispatcher.forward(request,response);
+```
+
+`viewPath Áßº¹`
+```java
+    String viewPath = "/WEB-INF/views/members.jsp";
+```
+viewPath ¿¡¼­ jsp°¡ ¾Æ´Ï¶ó thymeleaf°°Àº ´Ù¸¥ ºä·Î º¯°æÇÑ´Ù¸é ÀüÃ¼ ÄÚµå¸¦ ´Ù º¯°æÇØ¾ßÇÑ´Ù. 
+
+±â´ÉÀÌ º¹ÀâÇØ Áú¼ö·Ï ÄÁÆ®·Ñ·¯¿¡¼­ °øÅëÀ¸·Î Ã³¸®Çá¾Æ ÇÏ´Â ºÎºĞÀÌ Á¡Á¡ ´õ ¸¹ÀÌ Áõ°¡ÇÒ °ÍÀÌ´Ù. ´Ü¼øÈ÷ °øÅë ±â´ÉÀ» ¸Ş¼­µå·Î »ÌÀ¸¸é µÉ °Í °°Áö¸¸, °á°úÀûÀ¸·Î ÇØ´ç ¸Ş¼­µå¸¦ Ç×»ó È£ÃâÇØ¾ß ÇÏ°í ½Ç¼ö·Î È£ÃâÇÏÁö ¾ÊÀ¸¸é ¹®Á¦°¡µÈ´Ù. ¶ÇÇÑ È£ÃâÇÏ´Â°Í ÀÚÃ¼°¡ Áßº¹ÀÌ´Ù. 
+
+
+
+## Adapter Pattern
+- ±âÁ¸ ÄÚµå¸¦ Àç»ç¿ëÇÏ±âÀ§ÇØ ³»Àû, ¿ÜÀû ±¸Á¶¸¦ º¯È¯ÇÏ´Â ÀÛ¾÷À» Ã³¸®ÇÏ¸ç ÀÎÅÍÆäÀÌ½º¸¦ Ã³¸®ÇÏ°í ÀÎÅÍÆäÀÌ½º¸¦ È°¿ëÇØ º¸Á¤ÄÚµå¸¦ »ç¿ëÇÑ´Ù. 
+±â´É»ó ¹®Á¦ ÀÌ µ¿ÀÛÇÏ´Â ÄÚµå°¡ ´ÜÁö ÀÎÅÍÆäÀÌ½º Â÷ÀÌ ¶§¹®¿¡ »ç¿ëÇÒ ¼ö ¾ø´Â °æ¿ì ¸¹ÀÌ ÀÀ¿ëµÇ´Â ÆĞÅÏÀÌ´Ù. 
+- ¿À·¡µÈ ·¹°Å½Ã ÄÚµå³ª ¶óÀÌºê·¯¸®¤Ñ¤© Àç»ç¿ëÇÒ ¶§ À¯¿ëÇÑ ÆĞÅÏÀÌ´Ù. ¼­·Î È£È¯µÇÁö ¾Ê´Â ÀÎÅÍÆäÀÌ½º¸¦ °¡Áø ÄÚµå¸¦ °áÇÔÇÏ¿© ÀÀ¿ë ÇÁ·Î±×·¥¿¡¼­ µ¿ÀÛÇÒ ¼ö ÀÖµµ·Ï µµ¿ÍÁØ´Ù.
+
+## DispatcherServlet »ìÆìº¸±â
+½ºÇÁ¸µ MVCµµ ÇÁ·ĞÆ®ÄÁÆ®·Ñ·¯ ÆĞÅÏÀ¸·Î ±¸ÇöµÇ¾îÀÖµû. 
+½ºÇÁ¸µ MVC ÄÁÆ®·Ñ·¯°¡ ¹Ù·Î DispatcherSErvletÀÌ´Ù. 
+ÀÌ DispatcherServletÀÌ ¹Ù·Î MVCÀÇ ÇÙ½ÉÀÌ´Ù. 
+
+½ºÇÁ¸µ ºÎÆ®´Â dispatcherServletÀ» ¼­ºí¸´À¸·Î ÀÚµ¿À¸·Î µî·ÏÇÏ¸é¼­ ¸ğµç°æ·Î`urlPatters="/"` ¿¡ ´ëÇØ¼­ ¸ÅÇÎÇÑ´Ù. 
+
+*¿äÃ»Èå¸§*
+- ¼­ºí¸´ÀÌ È£ÃâµÇ¸Õ `HttpServlet` ÀÌ Á¦°øÇÏ´Â service() °¡ È£ÃâµÈ´Ù. 
+- ½ºÇÁ¸µ MVC´Â dispatcherSErvletÀÇ ºÎ¸ğÀÎ FrameworkServlet¿¡¼­ service()¸¦ ¿À¹ö¶óÀÌµå ÇØµÎ¾ú´Ù. 
+- service())¸¦ ½ÃÀÛÀ¸·Î `DispatcherServlet.doDispatch() °¡ È£ÃâµÈ´Ù. 
+
+*µ¿ÀÛ ¼ø¼­*
+1. ÇÚµé·¯ Á¶È¸ : ÇÚµé·¯ ¸ÅÇÎÀ» ÅëÇØ ¿äÃ» URL¿¡ ¸ÅÇÎµÈ ÇÚµé·¯¸¦ Á¶È¸ÇÑ´Ù. 
+2. ÇÚµé·¯ ¾î´ğÅÍ Á¶È¸ : ÇÚµé·¯¸¦ ½ÇÇàÇÒ ¼ö ÀÖ´Â ÇÚµé·¯ ¾î´ğÅÍ¸¦ Á¶È¸.
+3. ÇÚµé·¯ ¾î´ğÅÍ ½ÇÇà : ÇÚµé·¯ ¾î´ğÅÍ¸¦ ½ÇÇàÇÑ´Ù.
+4. ÇÚµé·¯ ½ÇÇà : ÇÚµé·¯ ¾î´ğÅÍ°¡ ½ÇÁ¦ ÇÚµé·¯¸¦ ½ÇÇàÇÑ´Ù. 
+5. Model And View ¹İÈ¯ : ÇÚµé·¯ ¾î´ğÅÍ´Â ÇÚµé·¯°¡ ¹İÈ¯ÇÏ´Â Á¤º¸¸¦ ModelandView·Î º¯È¯ÇØ¼­ ¹İÈ¯ÇÑ´Ù. 
+6. viewResolver È£Ãâ : ºä¸®Á¹¹ö¸¦ Ã£°í ½ÇÇàÇÑ´Ù. 
+- jsp´Â `InternalResourceViewReslover` °¡ ÀÚµ¿ µî·ÏµÇ°í »ç¿ëµÈ´Ù. 
+7. View ¹İÈ¯ : ºä¸®Á¹¹ö´Â ºäÀÇ ³í¸®ÀÌ¸§À» ¹°¸® ÀÌ¸§À¸·Î ¹Ù²Ù°í ·»´õ¸µ ¿ªÇÒÀ» ´ã´çÇÏ´Â ºä °´Ã¼¸¦ ¹İÈ¯ÇÑ´Ù. 
+8. ºä ·»´ú¸µ : ºä¸¦ ÅëÇØ¼­ ºä¸¦ ·»´õ¸µ ÇÑ´Ù.
+![image](https://user-images.githubusercontent.com/43670838/221402899-67df3345-5cbc-4263-b17f-723d5644dca8.png)
+
+
+## @Controller ÀÌÀüÀÇ spring Controller
+
+
+```java
+package hello.servlet.web.springmvc.old;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.Controller;
+
+@Component("/springmvc/old-controller")
+public class OldController implements Controller {
+    @Override
+    public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return null;
+    }
+}
+```
+Controller implementsÇÒ¶§ `web.springmvc.old` ÆĞÅ°Áö ¾Æ·¡¿¡ÀÖ´Â controller¸¦ »ç¿ëÇØ¾ßÇÑ´Ù.
+±× ÈÄ `@Component` ÀÇ bean ÀÌ¸§À» url·Î ¼³Á¤ÇØ¾ßµÈ´Ù.
+
+
+### ½ºÇÁ¸µºÎÆ®°¡ ÀÚµ¿À¸·Î µî·ÏÇÏ´Â ÇÚµé·¯ ¸ÅÇÎ°ú ÇÚµé·¯ ¾î´ğÅÍ
+**HandlerMapping**
+```
+0 = RequestMappingHandlerMapping : ¾î³ëÅ×ÀÌ¼Ç ±â¹İÀÇ ÄÁµå·Ñ·¯ÀÎ @RequestMapping¿¡¼­ »ç¿ë
+1 = BeanNameUrlHandlerMapping : ½ºÇÁ¸µ ºóÀÇ ÀÌ¸§À¸·Î ÇÚµé·¯¸¦ Ã£´Â´Ù.
+```
+
+**HandelrAdapter**
+```
+0 = RequestMappingHandlerAdapter : ¾î³ëÅ×ÀÌ¼Ç ±â¹İÀÇ ÄÁµå·Ñ·¯ÀÎ @RequestMapping¿¡¼­ »ç¿ë
+1 = HttpRequestHandlerAdapter : HttpRequestHandler Ã³¸®
+2 = SimpleControllerHandlerAdapter : Controller ÀÎÅÍÆäÀÌ½º(¾î³ëÅ×ÀÌ¼Çx, °ú°Å¿¡ »ç¿ë)Ã³¸®
+```
+ÇÚµé·¯ ¸ÅÇÎ, ÇÚµé·¯ ¾îµªÅÍµµ ¸ğµÎ ¼ø¼­´ë·Î Ã£°í ¸¸¾à ¾øÀ¸¸é `´ÙÀ½¼ø¼­` ·Î ³Ñ¾î °£´Ù.
