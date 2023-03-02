@@ -180,3 +180,41 @@ viewPath 에서 jsp가 아니라 thymeleaf같은 다른 뷰로 변경한다면 전체 코드를 다 변�
 ![image](https://user-images.githubusercontent.com/43670838/221402899-67df3345-5cbc-4263-b17f-723d5644dca8.png)
 
 
+## @Controller 이전의 spring Controller
+
+
+```java
+package hello.servlet.web.springmvc.old;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.Controller;
+
+@Component("/springmvc/old-controller")
+public class OldController implements Controller {
+    @Override
+    public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return null;
+    }
+}
+```
+Controller implements할때 `web.springmvc.old` 패키지 아래에있는 controller를 사용해야한다.
+그 후 `@Component` 의 bean 이름을 url로 설정해야된다.
+
+
+### 스프링부트가 자동으로 등록하는 핸들러 매핑과 핸들러 어댑터
+**HandlerMapping**
+```
+0 = RequestMappingHandlerMapping : 어노테이션 기반의 컨드롤러인 @RequestMapping에서 사용
+1 = BeanNameUrlHandlerMapping : 스프링 빈의 이름으로 핸들러를 찾는다.
+```
+
+**HandelrAdapter**
+```
+0 = RequestMappingHandlerAdapter : 어노테이션 기반의 컨드롤러인 @RequestMapping에서 사용
+1 = HttpRequestHandlerAdapter : HttpRequestHandler 처리
+2 = SimpleControllerHandlerAdapter : Controller 인터페이스(어노테이션x, 과거에 사용)처리
+```
+핸들러 매핑, 핸들러 어뎁터도 모두 순서대로 찾고 만약 없으면 `다음순서` 로 넘어 간다.
