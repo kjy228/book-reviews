@@ -218,3 +218,9 @@ Controller implements할때 `web.springmvc.old` 패키지 아래에있는 controller를 사�
 2 = SimpleControllerHandlerAdapter : Controller 인터페이스(어노테이션x, 과거에 사용)처리
 ```
 핸들러 매핑, 핸들러 어뎁터도 모두 순서대로 찾고 만약 없으면 `다음순서` 로 넘어 간다.
+
+springboot의 자동 기능을사용하여 위의 controller가 어떻게 접근되는지 순서로 나타내면
+1. 핸들러 매핑으로 핸들러를 조회한다. 이 경우 빈 이름으로 핸들러를 찾아야 하기 땜누에 이름 그대로 빈 이름으로 핸들러를 찾아주는 `BeanNmeUrlHandlerMapping`가 실행에 성공하고 핸들러인 `OldController`를 반환한다. 
+2. 핸들러 어댑터 조회 : `HandlerAdapter`의 `supports()` 를 순서대로 호출하여 SimpleCOntrollerHandlerAdapter가 지원 대상이된다. 
+3. 핸들러 어댑터 실행
+디스패쳐 서블릿이 조회한 SimpleControllerHandlerAdapter를 실행하면서 핸들러 정보도 함꼐 넘겨준다. 
