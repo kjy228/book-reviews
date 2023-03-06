@@ -276,3 +276,9 @@ ViewResolver internalResourceViewResolver(){
 }
 ```
 
+# SpringMVC
+
+`@Contorller`
+- 스프링이 자동으로 빈으로 등록한다.(내부에 `@Component가 있어서 컴포넌트 스캔의 대상이 됨)
+- 스프링MVC에서 어노테이션 기반 컨트롤러로 인식한다.
+- `ReuqestMappingHandlerMapping` 은 스프링 빈 중에서 `@RequestMapping`, `@Controller 가 클래스 레벨에 붙어있는 경우 매핑정보로 인식한다.
