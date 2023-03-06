@@ -247,3 +247,38 @@ public class MyHttpRequestHandler implements HttpRequestHandler {
 `핸들러 어댑터 실행`
 1.디스패쳐 서블릿이 조회한 `HttpRequesthandlerAdapter를 실행하면서 핸들러 정보도 함께 넘겨준다. 
 2.`HttpRequestHandlerAdapter는 핸들러인 `MyHttpRequestHandler`를 내부에서 실행하고 그결과를 반환한다.
+
+
+## ViewResolver
+
+```java
+@Component("/springmvc/old-controller")
+public class OldController implements Controller {
+    @Override
+    public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        System.out.println("OldController.handlerRequest");
+
+        return new ModelAndView("new-form");
+    }
+}
+```
+
+```
+//appication.properties
+spring.mvc.view.prefix=/WEB-INF/views/
+spring.mvc.view.suffix=.jsp
+```
+prefix와 suffix를 등록하면  ModelAndView에서 jsp를 리턴할 수 있다. 그 이유는 스프링 부트에서 아래코드를 자동으로 설정해주기 때문이다.
+```java
+@Bean
+ViewResolver internalResourceViewResolver(){
+    return enw InternalResourceViewResolver("/WEB-INF/views/", ".jsp");
+}
+```
+
+# SpringMVC
+
+`@Contorller`
+- 스프링이 자동으로 빈으로 등록한다.(내부에 `@Component가 있어서 컴포넌트 스캔의 대상이 됨)
+- 스프링MVC에서 어노테이션 기반 컨트롤러로 인식한다.
+- `ReuqestMappingHandlerMapping` 은 스프링 빈 중에서 `@RequestMapping`, `@Controller 가 클래스 레벨에 붙어있는 경우 매핑정보로 인식한다.
