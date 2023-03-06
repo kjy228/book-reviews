@@ -224,3 +224,26 @@ springboot의 자동 기능을사용하여 위의 controller가 어떻게 접근되는지 순서로 나타
 2. 핸들러 어댑터 조회 : `HandlerAdapter`의 `supports()` 를 순서대로 호출하여 SimpleCOntrollerHandlerAdapter가 지원 대상이된다. 
 3. 핸들러 어댑터 실행
 디스패쳐 서블릿이 조회한 SimpleControllerHandlerAdapter를 실행하면서 핸들러 정보도 함꼐 넘겨준다. 
+
+
+```java
+@Component("/springmvc/request-handler")
+public class MyHttpRequestHandler implements HttpRequestHandler {
+    @Override
+    public void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("MyHttpRequestHandler.handlerRequest");
+    }
+}
+```
+위의 코드로 application 실행후 localhost:8080/springmvc/request-handler 접속시 spring내부에서 어떻게 찾을까?
+
+`핸들러 매핑으로 핸들러 조회`
+1. HandlerMapping을 순차적으로 실행해서 핸들러를 찾는다. 
+2. 이 경우 빈 이름으로 핸들러를 찾아야 하기 때문에 이름 그대로 빈 이름으로 핸들러를 찾아주는 `BeanNameUrlHandlerMapping` 가 실행에 성공하고 핸들러인 `MyHttpRequestHandler` 를 반환한다. 
+`핸들러 어댑터 조회`
+1. `HandlerAdapter`의 `supports()를 순서대로 호출한다. 
+2. `HttpRequestHandlerAdapter`가 `HttpRequestHandler 인터페이스를 지원하므로 대상이 된다. 
+
+`핸들러 어댑터 실행`
+1.디스패쳐 서블릿이 조회한 `HttpRequesthandlerAdapter를 실행하면서 핸들러 정보도 함께 넘겨준다. 
+2.`HttpRequestHandlerAdapter는 핸들러인 `MyHttpRequestHandler`를 내부에서 실행하고 그결과를 반환한다.
