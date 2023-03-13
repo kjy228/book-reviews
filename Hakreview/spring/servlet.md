@@ -281,4 +281,20 @@ ViewResolver internalResourceViewResolver(){
 `@Contorller`
 - 스프링이 자동으로 빈으로 등록한다.(내부에 `@Component가 있어서 컴포넌트 스캔의 대상이 됨)
 - 스프링MVC에서 어노테이션 기반 컨트롤러로 인식한다.
-- `ReuqestMappingHandlerMapping` 은 스프링 빈 중에서 `@RequestMapping`, `@Controller 가 클래스 레벨에 붙어있는 경우 매핑정보로 인식한다.
+- `ReuqestMappingHandlerMapping` 은 스프링 빈 중에서 `@RequestMapping`, `@Controller` 가 클래스 레벨에 붙어있는 경우 매핑정보로 인식한다.
+
+## RequestMapping 특징
+```java
+@RequestMapping(value = "/new-form")
+    public String newForm() {
+        return "new-form";
+    }
+```
+위의 api로 postman을 사용하여 요청을 보내면 Get, Post, delete 모든 http Request사용이 가능하다. 따라서 이런문제를 방지하기 위해서 아래 코드로 변경하면된다. 
+
+```java
+@RequestMapping(value = "/new-form", method = RequestMethod.GET)
+    public String newForm() {
+        return "new-form";
+    }
+```
