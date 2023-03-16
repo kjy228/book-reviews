@@ -298,3 +298,27 @@ ViewResolver internalResourceViewResolver(){
         return "new-form";
     }
 ```
+
+## @Controller와 @RestController 의 차이
+
+@Controller
+- 기본적으로 view 이름을 반환하기위해 사용한다.
+- view를 렌더링하기위해 viewResolver가 사용되며 설정에맞게 view를 찾아 렌더링한다.
+
+@Restcontroller
+- data혹은 json으로 return할 수 있도록 한다.
+
+---
+
+## Log 관련 
+- Log level : trace - debug - info - warn -error
+- 개발서버 : debug출력
+- 운영 서버 : info 출력 ( info, warn, error 레벨의 log 출력됨)
+
+## Log 출력시 주의 사항
+```java
+log.info("info long= {}", name); // 이렇게 찍어야됨
+log.info("info long= "+ name); // 이렇게 X
+```
+그 이유는 `log.info("info long= "+ name)` 를 사용하면 스프링 내부적으로 스트링을 더하는 연산(infolong=name)을 하여 메모리를 잡아먹게 된다. 즉, 쓸모없는 리소스를 사용하게 된다. 
+
