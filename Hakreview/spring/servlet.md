@@ -322,3 +322,15 @@ log.info("info long= "+ name); // 이렇게 X
 ```
 그 이유는 `log.info("info long= "+ name)` 를 사용하면 스프링 내부적으로 스트링을 더하는 연산(infolong=name)을 하여 메모리를 잡아먹게 된다. 즉, 쓸모없는 리소스를 사용하게 된다. 
 
+-----
+## QueryParam vs PathVariable 차이
+@QueryParam
+- 이 어노테이션을 사용하면 url 경로에 ? 이 붙는다
+
+@PathVariable
+```java
+
+```
+이코드는 url 상에셔 `http://localhost:8080/mapping/1` 와 같이 보인다. 또한 개발자 도구를 사용하여 heaer의 경로를 보면 아래 사진과 같이 보인다. 
+![image](https://user-images.githubusercontent.com/43670838/225639281-e46bbf22-d308-415c-99b4-f7456428b597.png)
+
