@@ -334,3 +334,35 @@ log.info("info long= "+ name); // 이렇게 X
 이코드는 url 상에셔 `http://localhost:8080/mapping/1` 와 같이 보인다. 또한 개발자 도구를 사용하여 heaer의 경로를 보면 아래 사진과 같이 보인다. 
 ![image](https://user-images.githubusercontent.com/43670838/225639281-e46bbf22-d308-415c-99b4-f7456428b597.png)
 
+
+## Http Request
+
+
+### @ResponseBody에 대해서
+```java
+@Slf4j
+@Controller
+public class RequestParamController {
+
+    @ResponseBody
+    @RequestMapping("/request-param-v2")
+    public String requestParamV2(
+            @RequestParam("username") String username,
+            @RequestParam("age") Integer age) {
+
+        log.info("username={}, age={} ", username, age);
+        return "ok";
+    }
+}
+
+```
+controller를 위와 같은 코드로 작성하면 첫번쨰로 @Controller 어노테이션을 사용했기 때문에
+"ok"를 리턴하면 viewname을 리턴하게 된다. 
+하지만 `@ResponseBody`를 사용하면 String으로 리턴할 수 있다.
+
+### @RequestParam
+
+<b>특징</b>
+- 변수명이 같으면 `@RequestParam("username") String username` -> `@RequestParam String username` 으로 생략 할 수 있다. 
+- 객체가아닌 기본타입(String, int등 )을 받으면 `@RequestParam String username` -> `String username`  으로 생량할 수 있다.
+- primitive type 에 null 입력 안됨. `@RequestParam(required=false) int age`를 사용했을때 int가 아니라 Integer를 사용해야 null 값을 받을 수 있다. 아니면 `defaultValue` 옵션을 사용하면 된다.
