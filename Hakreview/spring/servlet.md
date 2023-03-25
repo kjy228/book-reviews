@@ -366,3 +366,34 @@ controller를 위와 같은 코드로 작성하면 첫번쨰로 @Controller 어노테이션을 사용했�
 - 변수명이 같으면 `@RequestParam("username") String username` -> `@RequestParam String username` 으로 생략 할 수 있다. 
 - 객체가아닌 기본타입(String, int등 )을 받으면 `@RequestParam String username` -> `String username`  으로 생량할 수 있다.
 - primitive type 에 null 입력 안됨. `@RequestParam(required=false) int age`를 사용했을때 int가 아니라 Integer를 사용해야 null 값을 받을 수 있다. 아니면 `defaultValue` 옵션을 사용하면 된다.
+
+
+## @RequestBody
+```java
+package hello.springmvc.basic.request;
+
+import jakarta.servlet.ServletInputStream;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Controller;
+import org.springframework.util.StreamUtils;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+
+@Slf4j
+@Controller
+public class RequestBodystringController {
+    @PostMapping("/request-body-string-v1")
+    public void requestBodyString(HttpServletRequest request, HttpServletResponse response)throws IOException{
+        ServletInputStream inputStream = request.getInputStream();
+        StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
+    }
+}
+
+```
+
+Stream은 항상 byte 코드이기때문에 문자열로 변환하기 위해서는 어떤 `형`으로 변환할지 지정해야된다.
+
