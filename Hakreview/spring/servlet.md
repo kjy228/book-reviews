@@ -218,3 +218,195 @@ Controller implements할때 `web.springmvc.old` 패키지 아래에있는 controller를 사�
 2 = SimpleControllerHandlerAdapter : Controller 인터페이스(어노테이션x, 과거에 사용)처리
 ```
 핸들러 매핑, 핸들러 어뎁터도 모두 순서대로 찾고 만약 없으면 `다음순서` 로 넘어 간다.
+
+springboot의 자동 기능을사용하여 위의 controller가 어떻게 접근되는지 순서로 나타내면
+1. 핸들러 매핑으로 핸들러를 조회한다. 이 경우 빈 이름으로 핸들러를 찾아야 하기 땜누에 이름 그대로 빈 이름으로 핸들러를 찾아주는 `BeanNmeUrlHandlerMapping`가 실행에 성공하고 핸들러인 `OldController`를 반환한다. 
+2. 핸들러 어댑터 조회 : `HandlerAdapter`의 `supports()` 를 순서대로 호출하여 SimpleCOntrollerHandlerAdapter가 지원 대상이된다. 
+3. 핸들러 어댑터 실행
+디스패쳐 서블릿이 조회한 SimpleControllerHandlerAdapter를 실행하면서 핸들러 정보도 함꼐 넘겨준다. 
+
+
+```java
+@Component("/springmvc/request-handler")
+public class MyHttpRequestHandler implements HttpRequestHandler {
+    @Override
+    public void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("MyHttpRequestHandler.handlerRequest");
+    }
+}
+```
+위의 코드로 application 실행후 localhost:8080/springmvc/request-handler 접속시 spring내부에서 어떻게 찾을까?
+
+`핸들러 매핑으로 핸들러 조회`
+1. HandlerMapping을 순차적으로 실행해서 핸들러를 찾는다. 
+2. 이 경우 빈 이름으로 핸들러를 찾아야 하기 때문에 이름 그대로 빈 이름으로 핸들러를 찾아주는 `BeanNameUrlHandlerMapping` 가 실행에 성공하고 핸들러인 `MyHttpRequestHandler` 를 반환한다. 
+`핸들러 어댑터 조회`
+1. `HandlerAdapter`의 `supports()를 순서대로 호출한다. 
+2. `HttpRequestHandlerAdapter`가 `HttpRequestHandler 인터페이스를 지원하므로 대상이 된다. 
+
+`핸들러 어댑터 실행`
+1.디스패쳐 서블릿이 조회한 `HttpRequesthandlerAdapter를 실행하면서 핸들러 정보도 함께 넘겨준다. 
+2.`HttpRequestHandlerAdapter는 핸들러인 `MyHttpRequestHandler`를 내부에서 실행하고 그결과를 반환한다.
+
+
+## ViewResolver
+
+```java
+@Component("/springmvc/old-controller")
+public class OldController implements Controller {
+    @Override
+    public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        System.out.println("OldController.handlerRequest");
+
+        return new ModelAndView("new-form");
+    }
+}
+```
+
+```
+//appication.properties
+spring.mvc.view.prefix=/WEB-INF/views/
+spring.mvc.view.suffix=.jsp
+```
+prefix와 suffix를 등록하면  ModelAndView에서 jsp를 리턴할 수 있다. 그 이유는 스프링 부트에서 아래코드를 자동으로 설정해주기 때문이다.
+```java
+@Bean
+ViewResolver internalResourceViewResolver(){
+    return enw InternalResourceViewResolver("/WEB-INF/views/", ".jsp");
+}
+```
+
+# SpringMVC
+
+`@Contorller`
+- 스프링이 자동으로 빈으로 등록한다.(내부에 `@Component가 있어서 컴포넌트 스캔의 대상이 됨)
+- 스프링MVC에서 어노테이션 기반 컨트롤러로 인식한다.
+- `ReuqestMappingHandlerMapping` 은 스프링 빈 중에서 `@RequestMapping`, `@Controller` 가 클래스 레벨에 붙어있는 경우 매핑정보로 인식한다.
+
+## RequestMapping 특징
+```java
+@RequestMapping(value = "/new-form")
+    public String newForm() {
+        return "new-form";
+    }
+```
+위의 api로 postman을 사용하여 요청을 보내면 Get, Post, delete 모든 http Request사용이 가능하다. 따라서 이런문제를 방지하기 위해서 아래 코드로 변경하면된다. 
+
+```java
+@RequestMapping(value = "/new-form", method = RequestMethod.GET)
+    public String newForm() {
+        return "new-form";
+    }
+```
+
+## @Controller와 @RestController 의 차이
+
+@Controller
+- 기본적으로 view 이름을 반환하기위해 사용한다.
+- view를 렌더링하기위해 viewResolver가 사용되며 설정에맞게 view를 찾아 렌더링한다.
+
+@Restcontroller
+- data혹은 json으로 return할 수 있도록 한다.
+
+---
+
+## Log 관련 
+- Log level : trace - debug - info - warn -error
+- 개발서버 : debug출력
+- 운영 서버 : info 출력 ( info, warn, error 레벨의 log 출력됨)
+
+## Log 출력시 주의 사항
+```java
+log.info("info long= {}", name); // 이렇게 찍어야됨
+log.info("info long= "+ name); // 이렇게 X
+```
+그 이유는 `log.info("info long= "+ name)` 를 사용하면 스프링 내부적으로 스트링을 더하는 연산(infolong=name)을 하여 메모리를 잡아먹게 된다. 즉, 쓸모없는 리소스를 사용하게 된다. 
+
+-----
+## QueryParam vs PathVariable 차이
+@QueryParam
+- 이 어노테이션을 사용하면 url 경로에 ? 이 붙는다
+
+@PathVariable
+```java
+
+```
+이코드는 url 상에셔 `http://localhost:8080/mapping/1` 와 같이 보인다. 또한 개발자 도구를 사용하여 heaer의 경로를 보면 아래 사진과 같이 보인다. 
+![image](https://user-images.githubusercontent.com/43670838/225639281-e46bbf22-d308-415c-99b4-f7456428b597.png)
+
+
+## Http Request
+
+
+### @ResponseBody에 대해서
+```java
+@Slf4j
+@Controller
+public class RequestParamController {
+
+    @ResponseBody
+    @RequestMapping("/request-param-v2")
+    public String requestParamV2(
+            @RequestParam("username") String username,
+            @RequestParam("age") Integer age) {
+
+        log.info("username={}, age={} ", username, age);
+        return "ok";
+    }
+}
+
+```
+controller를 위와 같은 코드로 작성하면 첫번쨰로 @Controller 어노테이션을 사용했기 때문에
+"ok"를 리턴하면 viewname을 리턴하게 된다. 
+하지만 `@ResponseBody`를 사용하면 String으로 리턴할 수 있다.
+
+### @RequestParam
+
+<b>특징</b>
+- 변수명이 같으면 `@RequestParam("username") String username` -> `@RequestParam String username` 으로 생략 할 수 있다. 
+- 객체가아닌 기본타입(String, int등 )을 받으면 `@RequestParam String username` -> `String username`  으로 생량할 수 있다.
+- primitive type 에 null 입력 안됨. `@RequestParam(required=false) int age`를 사용했을때 int가 아니라 Integer를 사용해야 null 값을 받을 수 있다. 아니면 `defaultValue` 옵션을 사용하면 된다.
+
+
+## @RequestBody
+```java
+package hello.springmvc.basic.request;
+
+import jakarta.servlet.ServletInputStream;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Controller;
+import org.springframework.util.StreamUtils;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+
+@Slf4j
+@Controller
+public class RequestBodystringController {
+    @PostMapping("/request-body-string-v1")
+    public void requestBodyString(HttpServletRequest request, HttpServletResponse response)throws IOException{
+        ServletInputStream inputStream = request.getInputStream();
+        StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
+    }
+}
+
+```
+
+Stream은 항상 byte 코드이기때문에 문자열로 변환하기 위해서는 어떤 `형`으로 변환할지 지정해야된다.
+
+
+## HttpEntity
+Http heaer , body정보를 편리하게 조회할 수 있다. 
+메세지 바디 정보를 직접 조회
+요청 파라미터를 조회하는 기능과 관계 없음(@RequestParam, @ModelAttribute)
+- httpentity는 응답에서도 사용가능하다. 
+- 메세지 바디 정보 직접 반환 및 헤더정보 포함 가능하지만 `view 조회는 안됨`
+
+HttpEntity를 상속받은 다음 객체들도 같은 기능을 제공한다. 
+`ReqeustEntity` : HttpMethod, url 정보 추가, 요청에서 사용
+`ResponseEntity`: http상태코드 설정 가능, 응답에 사용 됨 (`return new ResponseEntity<String>("Hello workd", responseHeaders, HttpStatus.CREATED))`
+
+ 
