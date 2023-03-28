@@ -397,3 +397,16 @@ public class RequestBodystringController {
 
 Stream은 항상 byte 코드이기때문에 문자열로 변환하기 위해서는 어떤 `형`으로 변환할지 지정해야된다.
 
+
+## HttpEntity
+Http heaer , body정보를 편리하게 조회할 수 있다. 
+메세지 바디 정보를 직접 조회
+요청 파라미터를 조회하는 기능과 관계 없음(@RequestParam, @ModelAttribute)
+- httpentity는 응답에서도 사용가능하다. 
+- 메세지 바디 정보 직접 반환 및 헤더정보 포함 가능하지만 `view 조회는 안됨`
+
+HttpEntity를 상속받은 다음 객체들도 같은 기능을 제공한다. 
+`ReqeustEntity` : HttpMethod, url 정보 추가, 요청에서 사용
+`ResponseEntity`: http상태코드 설정 가능, 응답에 사용 됨 (`return new ResponseEntity<String>("Hello workd", responseHeaders, HttpStatus.CREATED))`
+
+ 
