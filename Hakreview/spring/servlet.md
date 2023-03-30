@@ -409,4 +409,8 @@ HttpEntity를 상속받은 다음 객체들도 같은 기능을 제공한다.
 `ReqeustEntity` : HttpMethod, url 정보 추가, 요청에서 사용
 `ResponseEntity`: http상태코드 설정 가능, 응답에 사용 됨 (`return new ResponseEntity<String>("Hello workd", responseHeaders, HttpStatus.CREATED))`
 
- 
+
+## @RequestBody
+http 바디정보를 편리하게 조회할 수 있따. 해더정보가 필요하다면 `HttpEntity, @RequestHeader` 를 사용하면된다. 
+
+요청 파라미터 vs http메세지 바디
