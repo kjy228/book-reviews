@@ -413,4 +413,7 @@ HttpEntity를 상속받은 다음 객체들도 같은 기능을 제공한다.
 ## @RequestBody
 http 바디정보를 편리하게 조회할 수 있따. 해더정보가 필요하다면 `HttpEntity, @RequestHeader` 를 사용하면된다. 
 
-요청 파라미터 vs http메세지 바디
+@RequestBody 는 생략하면 `@ModelAttribute` 가 된다. 따라서 생략하면 안된다. 
+- `@RequestParam`  :String, int, Integer같은 단순 타입 처리 
+- `@ModelAttribute` : 그외의 처리 (argument resolver로 지정해준 타입 외)
+따라서 @RequestBody를 생략하면 @ModelAttribute 가 적용되어 http 메세지 바디가 아니라 요청 파라미터를 처리하게 된다.
