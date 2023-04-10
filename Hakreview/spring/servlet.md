@@ -417,3 +417,20 @@ http 바디정보를 편리하게 조회할 수 있따. 해더정보가 필요하다면 `HttpEntity, @Req
 - `@RequestParam`  :String, int, Integer같은 단순 타입 처리 
 - `@ModelAttribute` : 그외의 처리 (argument resolver로 지정해준 타입 외)
 따라서 @RequestBody를 생략하면 @ModelAttribute 가 적용되어 http 메세지 바디가 아니라 요청 파라미터를 처리하게 된다.
+
+
+## Http 응답
+
+응답 데이터를 만드는 방법
+- 정적 리소스 : 웹에 정적 html, css, js를 리털할떼는 정적 리소스 사용
+- 뷰 템플릿 사용 : 동적 Html 제공할때 뷰템플릿 사용
+- Http 메세지 사용 : http api를 제공하는 경우 데이터를 전달해야하기 땜누에 Json형식으로 http message body에 데이터를 실어서 보냄
+
+### 정적 리소스 
+스프링 부트는 `/static, /public , /resource, /META_INF/resource ` 디렉토리에 있는 정적 리소르를 제공한다.
+
+### 뷰 템플릿
+뷰템플릿을 거쳐소 html이 생성 되고 뷰가 응답을 만들어서 전달한다. 
+일반적으로 html을 동적으로 생성하는 용도로 사용하지만 뷰템플릿이 만들 수 있는것이면 뭐든 가능한다. 
+스프링 부트는 `src/main/resources/templates` 경로를 기본 뷰 템플릿 경로로 제공한다.
+?
