@@ -433,4 +433,25 @@ http 바디정보를 편리하게 조회할 수 있따. 해더정보가 필요하다면 `HttpEntity, @Req
 뷰템플릿을 거쳐소 html이 생성 되고 뷰가 응답을 만들어서 전달한다. 
 일반적으로 html을 동적으로 생성하는 용도로 사용하지만 뷰템플릿이 만들 수 있는것이면 뭐든 가능한다. 
 스프링 부트는 `src/main/resources/templates` 경로를 기본 뷰 템플릿 경로로 제공한다.
-?
+
+### Thymeleaf 스프링 부트 설정
+```gradle
+implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+```
+스프링 부트가 자동으로 `ThymeleafViewResolver` 와 필요한 스플이 ㅂ니들을 등로한다. 그리고 다음 설정도 기본값으로 사용하면 변경이 필요할때만 설정하면된다. 
+
+```properties
+spring.thymeleaf.prefix=classpath:/templates/
+spring.thymeleaf.suffix=.html
+```
+
+## Http message Converter
+
+`@ResponseBody` 사용
+- http body에 문자 내용을 직접 반환
+- viewResorver 대신에 HttpMessageConverter가 동작
+- 기본 문자처리 : StringHttpMessageConverter
+- 기본 객체 처리 : MappingJackson2HttpMessageConverter
+- byte 처리 등등 기타 여러 httpMessageConverter가 기본으로 등록되어있음
+
+응답의 경우 클라이언트의 httpAccept 헤더와 서버의 컨트롤러 반환 타입 정보 둘을 조합해서 httpMessageConverter가 선택된다 
