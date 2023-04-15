@@ -454,4 +454,17 @@ spring.thymeleaf.suffix=.html
 - 기본 객체 처리 : MappingJackson2HttpMessageConverter
 - byte 처리 등등 기타 여러 httpMessageConverter가 기본으로 등록되어있음
 
-응답의 경우 클라이언트의 httpAccept 헤더와 서버의 컨트롤러 반환 타입 정보 둘을 조합해서 httpMessageConverter가 선택된다 
+응답의 경우 클라이언트의 httpAccept 헤더와 서버의 컨트롤러 반환 타입 정보 둘을 조합해서 httpMessageConverter가 선택된다.
+
+<b>스프링 MVC는 다음의 경우 Http 메세지 컨버터를 적용한다. </b>
+- Http 요청 : `@RequestBody, HttpEntity(RequestEntity)`
+- Http 웅답 : `@ResponseBody, HttpEntity(ResponseEntity)`
+controller의 api 가 호출되기전에 메세지 컨버터가 호출되어 @RequestBody, httpEntity가 있으면 해당 요청의 httpbody의 객체를 꺼내서 그 객체를 변환한다음에 api가 동작한다.
+
+
+
+## 요청 매핑 핸들러 어댑터 구조
+![image](https://user-images.githubusercontent.com/43670838/232226071-448206f0-b350-4872-b7b4-6f8560ef8ed8.png)
+
+### ArguemtnResolver
+어노테이션 기반 컨트롤러를 처리하는 `RequestMappingHandlerAdapter ` 는 바로 `ArgumentResolver를 호출해서 컨트롤러가 필요로하는 다양한 파라미터의 값을 생성한다. 그리고 이 파라미터의 값이 모두 준비되면 컨트롤러를 호출해서 값을 넘겨준다.
