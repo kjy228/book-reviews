@@ -165,7 +165,7 @@ viewPath 에서 jsp가 아니라 thymeleaf같은 다른 뷰로 변경한다면 전체 코드를 다 변�
 *요청흐름*
 - 서블릿이 호출되먼 `HttpServlet` 이 제공하는 service() 가 호출된다. 
 - 스프링 MVC는 dispatcherSErvlet의 부모인 FrameworkServlet에서 service()를 오버라이드 해두었다. 
-- service())를 시작으로 `DispatcherServlet.doDispatch() 가 호출된다. 
+- service()를 시작으로 `DispatcherServlet.doDispatch() 가 호출된다. 
 
 *동작 순서*
 1. 핸들러 조회 : 핸들러 매핑을 통해 요청 URL에 매핑된 핸들러를 조회한다. 
@@ -356,7 +356,7 @@ public class RequestParamController {
 }
 
 ```
-controller를 위와 같은 코드로 작성하면 첫번쨰로 @Controller 어노테이션을 사용했기 때문에
+controller를 위와 같은 코드로 작성하면 첫번?로 @Controller 어노테이션을 사용했기 때문에
 "ok"를 리턴하면 viewname을 리턴하게 된다. 
 하지만 `@ResponseBody`를 사용하면 String으로 리턴할 수 있다.
 
@@ -409,4 +409,86 @@ HttpEntity를 상속받은 다음 객체들도 같은 기능을 제공한다.
 `ReqeustEntity` : HttpMethod, url 정보 추가, 요청에서 사용
 `ResponseEntity`: http상태코드 설정 가능, 응답에 사용 됨 (`return new ResponseEntity<String>("Hello workd", responseHeaders, HttpStatus.CREATED))`
 
- 
+
+## @RequestBody
+http 바디정보를 편리하게 조회할 수 있따. 해더정보가 필요하다면 `HttpEntity, @RequestHeader` 를 사용하면된다. 
+
+@RequestBody 는 생략하면 `@ModelAttribute` 가 된다. 따라서 생략하면 안된다. 
+- `@RequestParam`  :String, int, Integer같은 단순 타입 처리 
+- `@ModelAttribute` : 그외의 처리 (argument resolver로 지정해준 타입 외)
+따라서 @RequestBody를 생략하면 @ModelAttribute 가 적용되어 http 메세지 바디가 아니라 요청 파라미터를 처리하게 된다.
+
+
+## Http 응답
+
+응답 데이터를 만드는 방법
+- 정적 리소스 : 웹에 정적 html, css, js를 리털할떼는 정적 리소스 사용
+- 뷰 템플릿 사용 : 동적 Html 제공할때 뷰템플릿 사용
+- Http 메세지 사용 : http api를 제공하는 경우 데이터를 전달해야하기 땜누에 Json형식으로 http message body에 데이터를 실어서 보냄
+
+### 정적 리소스 
+스프링 부트는 `/static, /public , /resource, /META_INF/resource ` 디렉토리에 있는 정적 리소르를 제공한다.
+
+### 뷰 템플릿
+뷰템플릿을 거쳐소 html이 생성 되고 뷰가 응답을 만들어서 전달한다. 
+일반적으로 html을 동적으로 생성하는 용도로 사용하지만 뷰템플릿이 만들 수 있는것이면 뭐든 가능한다. 
+스프링 부트는 `src/main/resources/templates` 경로를 기본 뷰 템플릿 경로로 제공한다.
+
+### Thymeleaf 스프링 부트 설정
+```gradle
+implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+```
+스프링 부트가 자동으로 `ThymeleafViewResolver` 와 필요한 스플이 ㅂ니들을 등로한다. 그리고 다음 설정도 기본값으로 사용하면 변경이 필요할때만 설정하면된다. 
+
+```properties
+spring.thymeleaf.prefix=classpath:/templates/
+spring.thymeleaf.suffix=.html
+```
+
+## Http message Converter
+
+`@ResponseBody` 사용
+- http body에 문자 내용을 직접 반환
+- viewResorver 대신에 HttpMessageConverter가 동작
+- 기본 문자처리 : StringHttpMessageConverter
+- 기본 객체 처리 : MappingJackson2HttpMessageConverter
+- byte 처리 등등 기타 여러 httpMessageConverter가 기본으로 등록되어있음
+
+응답의 경우 클라이언트의 httpAccept 헤더와 서버의 컨트롤러 반환 타입 정보 둘을 조합해서 httpMessageConverter가 선택된다.
+
+<b>스프링 MVC는 다음의 경우 Http 메세지 컨버터를 적용한다. </b>
+- Http 요청 : `@RequestBody, HttpEntity(RequestEntity)`
+- Http 웅답 : `@ResponseBody, HttpEntity(ResponseEntity)`
+controller의 api 가 호출되기전에 메세지 컨버터가 호출되어 @RequestBody, httpEntity가 있으면 해당 요청의 httpbody의 객체를 꺼내서 그 객체를 변환한다음에 api가 동작한다.
+
+
+
+## 요청 매핑 핸들러 어댑터 구조
+![image](https://user-images.githubusercontent.com/43670838/232226071-448206f0-b350-4872-b7b4-6f8560ef8ed8.png)
+
+### ArguemtnResolver
+어노테이션 기반 컨트롤러를 처리하는 `RequestMappingHandlerAdapter ` 는 바로 `ArgumentResolver를 호출해서 컨트롤러가 필요로하는 다양한 파라미터의 값을 생성한다. 그리고 이 파라미터의 값이 모두 준비되면 컨트롤러를 호출해서 값을 넘겨준다.
+## Message처리
+현재 스프링부트는 메세징 처리를 자동으로 해준다. 수동으로 메세징처리 빈을 등록하는 방법은 아래 코드를 참조하면된다. 
+```java
+/**
+	 * 메세지 관리 Bean
+	 * 현재는 spring에서 자동으로 등록한다.
+	 */
+	@Bean
+	public MessageSource messageSource(){
+		ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+		messageSource.setBasenames("messages", "errors");
+		messageSource.setDefaultEncoding("utf-8");
+		return messageSource;
+	}
+```
+
+`basenames`: 설정 파일의 이름을 지정한다. message로 지정하면 message.properties 파일을 읽어서 사용한다. 
+파일 위치는 `/resources/messgaes.properties` 에 두면 된다. 
+
+스프링부트에서 메세지 소스를 설정하기위해서 수동으로 빈을 등록하지않고 `application.properties ` 에 아래 소스를 설정 할 수 있따. 
+```
+spring.messages.basename = messages,config.i18n.messages
+```
+스프링 부트 메세지 소스기본값은 basename = messages 이다. 
