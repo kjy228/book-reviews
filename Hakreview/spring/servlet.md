@@ -492,3 +492,46 @@ controller의 api 가 호출되기전에 메세지 컨버터가 호출되어 @RequestBody, httpEnti
 spring.messages.basename = messages,config.i18n.messages
 ```
 스프링 부트 메세지 소스기본값은 basename = messages 이다. 
+
+
+## BindingResult
+
+```java
+@PostMapping("/add")
+    public String addItemV1(@ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
+        //검증
+        if(!StringUtils.hasText(item.getItemName())){
+            bindingResult.addError(new FieldError("item", "itemName", "상품이름은 필수입니다."));
+        }
+
+        if(item.getPrice() == null || item.getPrice() <1000 || item.getPrice() >1000000){
+            bindingResult.addError(new FieldError("item", "price", "가격은 1,000 - 1,000,000까지 허용합니다."));
+        }
+        if(item.getQuantity() == null || item.getQuantity() >= 9999){
+            bindingResult.addError(new FieldError("item", "quantity", "수량은 최대 9,999까지 허용합니다."));
+        }
+        //특정필드가 아닌 복합 룰 검증
+        if(item.getPrice() != null && item.getQuantity() != null){
+            int resultPrice = item.getPrice()* item.getQuantity();
+            if(resultPrice <10000){
+                bindingResult.addError(new ObjectError("item", "가격 * 수량의 합은 10,000원 이상이어야합니다. 현재 값 = " + resultPrice));
+            }
+        }
+
+        //검증 실패하면 다시 입력 폼으로
+        if(bindingResult.hasErrors()){
+            log.info("errors = {}" , bindingResult);
+            return "validation/v2/addForm";
+        }
+
+        //성공 로직
+        Item savedItem = itemRepository.save(item);
+        redirectAttributes.addAttribute("itemId", savedItem.getId());
+        redirectAttributes.addAttribute("status", true);
+        return "redirect:/validation/v2/items/{itemId}";
+    }
+```
+
+`BindingResult`는 무조건 `@ModelAttribute Item item` 뒤에 와야한다. 
+각 attribute에 대한 오류 : `new FieldError("item", "itemName", "상품이름은 필수입니다.")` 처럼 FieldError 사용
+글로벌 오류 : `new ObjectError("item", "가격 * 수량의 합은 10,000원 이상이어야합니다. 현재 값 = " + resultPrice)`처럼 objectError 사용
