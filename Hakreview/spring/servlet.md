@@ -535,3 +535,14 @@ spring.messages.basename = messages,config.i18n.messages
 `BindingResult`는 무조건 `@ModelAttribute Item item` 뒤에 와야한다. 
 각 attribute에 대한 오류 : `new FieldError("item", "itemName", "상품이름은 필수입니다.")` 처럼 FieldError 사용
 글로벌 오류 : `new ObjectError("item", "가격 * 수량의 합은 10,000원 이상이어야합니다. 현재 값 = " + resultPrice)`처럼 objectError 사용
+
+`BindingResult` 가 있으면 @ModelAttribute 에 데이터 바인딩 시 오류가 발생해도 컨트롤러가 호출된다.
+
+@ModelAttribute에 바인딩시 타입오류가 발생하면?
+- bindingResult가 없으면 400오류가 발생하면서 컨트롤러가 호출되지 않고 오류 페이지로 이동힌다. 
+- bindingResult가 있으면 오류정보(FieldError)를 bindingResult에 담아서 컨트롤러를 정상 호출한다. 
+
+<b>BindingResult에 검증오류 적용하는 방법</b>
+- @ModelAttribute의 객체에 타입 오류 등으로 바인딩이 실패하는 경우 스프링이 FieldError를 생성해서 bindingResult에 넣어준다. 
+- 개발자가 직접 넣어준다 
+- Validator 사용 
