@@ -546,3 +546,6 @@ spring.messages.basename = messages,config.i18n.messages
 - @ModelAttribute의 객체에 타입 오류 등으로 바인딩이 실패하는 경우 스프링이 FieldError를 생성해서 bindingResult에 넣어준다. 
 - 개발자가 직접 넣어준다 
 - Validator 사용 
+
+BindingResult는 인터페이스이고 Errors를 상속 받고 있다. 
+실제 넘어 오는구현체는 `BeanPropertyBindingResult`라는 것인데 둘다 구현하고 있으므로 `BindingResult` 대신에 `Errors를 사용해도된다. 
