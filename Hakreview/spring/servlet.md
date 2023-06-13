@@ -573,3 +573,9 @@ required=필수 입니다.
 
 # Bean Validation
 구현체가 아니라 Bean validation(JSR-380)이라는 기술 표준이ㅏㄷ. 검증애노테이션과 여러 인터페이스의 모음이다. 마치 JPA가 표준기술이고 그 구현체로 하이버네이트가 있는것과 같다.
+`spring-boot-starter-validation` 의존성을 추가하면 자동으로 BeanValidator를 인지하고 스프링에 통합한다. 
+스프링 부트는 자동으로 글로벌 Validator로 등록힌다. `@valid @Validated`만 적영하면 되며 검증오류가 발생하면 `FieldError, ObjectError`를 생성해서 `BindingResult` 에 담아준다. 
+
+<b>바인딩에 성공한 필드만 Bean Validation 적용</b>
+BeanValidator는 바인딩에 실패한 필드는 BeanValidation을 적용하지 안흔다. 
+타입변환해 성공해서 바인딩에 성공한 필드여야 BeanValidation 적용이 의미 있다.
