@@ -571,7 +571,7 @@ required=필수 입니다.
 이럴땐 FieldError의 errorCode 파라미터에 "required" 라고 적으면 디테일한 에러로그를 1순위로 잡는다.
 
 
-# Bean Validation
+## Bean Validation
 구현체가 아니라 Bean validation(JSR-380)이라는 기술 표준이ㅏㄷ. 검증애노테이션과 여러 인터페이스의 모음이다. 마치 JPA가 표준기술이고 그 구현체로 하이버네이트가 있는것과 같다.
 `spring-boot-starter-validation` 의존성을 추가하면 자동으로 BeanValidator를 인지하고 스프링에 통합한다. 
 스프링 부트는 자동으로 글로벌 Validator로 등록힌다. `@valid @Validated`만 적영하면 되며 검증오류가 발생하면 `FieldError, ObjectError`를 생성해서 `BindingResult` 에 담아준다. 
@@ -579,3 +579,30 @@ required=필수 입니다.
 <b>바인딩에 성공한 필드만 Bean Validation 적용</b>
 BeanValidator는 바인딩에 실패한 필드는 BeanValidation을 적용하지 안흔다. 
 타입변환해 성공해서 바인딩에 성공한 필드여야 BeanValidation 적용이 의미 있다.
+
+### BeanValidation Object 오류 관련
+
+```java
+
+@Data
+public class Item {
+
+    private Long id;
+    @NotBlank(message = "공백 안됨")
+    private String itemName;
+    @NotNull
+    @Range(min = 1000, max = 1000000)
+    private Integer price;
+}
+```
+위의 코드처럼 특정필드(itemName, price)에 validation이 적용된다.그렇다면 item 객체 자체에 오류가있다면 ObjectError는 어떻게 처리할 수 있을까.?
+
+```java
+@Data
+@ScriptAssert(lang = "javascript", script = "_this.price*_this.quantity >= 10000")
+public class Item {
+}
+```
+`ScriptAssert`를 사용하면 된다.
+하지만 현업에서는 제약이 많고 복잡하기 때문에 오브젝트 관련 오류는 직접 코드로 작성하는것이 좋다.
+ 
