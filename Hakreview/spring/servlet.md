@@ -606,3 +606,6 @@ public class Item {
 `ScriptAssert`를 사용하면 된다.
 하지만 현업에서는 제약이 많고 복잡하기 때문에 오브젝트 관련 오류는 직접 코드로 작성하는것이 좋다.
  
+ 참고 
+ @ModelAttribute : http 요청 파라미터 (url 쿼리스트링, post form ) 다룰떄 사용
+ @RequestBidy : api json요청 다룰때 사용 
