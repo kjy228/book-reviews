@@ -609,3 +609,10 @@ public class Item {
  참고 
  @ModelAttribute : http 요청 파라미터 (url 쿼리스트링, post form ) 다룰떄 사용
  @RequestBidy : api json요청 다룰때 사용 
+
+ <b>@ModelAttribute vs @RequestBody</b>
+ http 요청 파라미터를 처리하는 @ModelAttribute는 각각의 필드 단위로 적용된다. 특정 필드 타입에 맞지 안흔 오류가 ㅂ라생해도 나머지 필드는 정상처리 할 수 있다. 
+ HttpMessageConverter는 @ModelAttribute와 다르게 각각의 필드단위로 적용되지 않고 전체 객체 단위로 적용된다. 
+ 따라서 메시지 컨버터의 작동이 성공해서 Item객체를 만들어야 @Valid, @Validated가 적용된다. 
+- @ModelAttribute : 필드단위로 정교하게 바인딩이 적용된다. 특정 필드가 바인딩 되지 않아도 나머지 필드는 정상 바인딩 되고 Validator를 사용한 검증도 적용할 수 있다. 
+- @RequestBody : httpMessageConverter 단계에서 json 데이터를 걱체료 변경하지 못하면 이후 단계가 진행되지 않아 예외를 발생할ㄴ다. 
