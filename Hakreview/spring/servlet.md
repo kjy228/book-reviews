@@ -615,4 +615,9 @@ public class Item {
  HttpMessageConverter는 @ModelAttribute와 다르게 각각의 필드단위로 적용되지 않고 전체 객체 단위로 적용된다. 
  따라서 메시지 컨버터의 작동이 성공해서 Item객체를 만들어야 @Valid, @Validated가 적용된다. 
 - @ModelAttribute : 필드단위로 정교하게 바인딩이 적용된다. 특정 필드가 바인딩 되지 않아도 나머지 필드는 정상 바인딩 되고 Validator를 사용한 검증도 적용할 수 있다. 
-- @RequestBody : httpMessageConverter 단계에서 json 데이터를 걱체료 변경하지 못하면 이후 단계가 진행되지 않아 예외를 발생할ㄴ다. 
+- @RequestBody : httpMessageConverter 단계에서 json 데이터를 걱체료 변경하지 못하면 이후 단계가 진행되지 않아 예외를 발생한다.
+
+## Cookie
+
+### 로그인 상태 유지하기
+서버에서 로그인에 성공하면 Http 응답에 쿠키를 담아서 브라우저 전달하자. 그러면 브라우저는 아픙로 해당 쿠키를 지속해서 보내준다.
