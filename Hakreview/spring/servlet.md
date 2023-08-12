@@ -645,3 +645,14 @@ public class Item {
  2. 세션 조회
  3. 세션 만료
  3개의 기능으로 구성한다.
+
+ ## Servlet Http 세션
+ 서블렛은 세션을 위해 `HttpSession` 기능을 제공해는데 직접 구현한 세션의 개념은 이미 구현되어 있다.
+ ```java
+ //세션이 있으면 있는 세션 반환, 없으면 신규 세션 생성
+        //request.getSession() 의 default값은 true
+        HttpSession session = request.getSession();
+```
+request.getSession(true) : 세션이 있으면 기존 세션 반환, 없으면 새로운 세션을 생성해서 반환한다. 
+request.getSession(false) : 세션이 있으면 기존 세션 반환, 없으면 새로운 세션을 생성하지 않고 `null` 을 반환한다.
+
