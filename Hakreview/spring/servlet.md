@@ -656,3 +656,12 @@ public class Item {
 request.getSession(true) : 세션이 있으면 기존 세션 반환, 없으면 새로운 세션을 생성해서 반환한다. 
 request.getSession(false) : 세션이 있으면 기존 세션 반환, 없으면 새로운 세션을 생성하지 않고 `null` 을 반환한다.
 
+## Tracking lodes
+로그인을 처음 시도하면 URL이 `jsessionid` 를 포함하고 있따. 
+이것은 웹브라우저가 쿠키를지원하지 않을때 대신 URL을 통해서 세션을 유지하는 방법이다. 이 방법으 ㄹ사용하려면 URL에 이 값을 계속 전달해야되는데 타임리프 같은 ㅊ템플릿 엔진을 통해서 링크를 걸면 jsessionid를 자동으로 포함해준다. URL전달 방식을 끄고 항상 쿠키를 통해서만 세션을 유지하고 싶으면 다음 옵션을 넣어주면된다. 이렇게 되면 URL에 jsessionid가 노출되지 않는다. 
+```
+application.properties
+
+serverlservlet.session.tracking-mode = cookie
+```
+
