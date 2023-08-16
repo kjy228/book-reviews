@@ -82,3 +82,50 @@ Menu.stream()
 스트림 파이프라인은 내부적으로 단일 과정으로 실행할 수 있또록 최적화 된다. 숏서킷을 이용해서 결과를 찾는 즉시 실행을 종료한다. 
 Optional <T>는 값의 존재여무를 표현하는 컨테이너 클래스다. null은 쉽게 에러를 일으킬 수 있으므로 이를 이용해서 null확인 관련 버그를 피할 수 있다.
 
+- isPresnet() : Optional값을 포함하면 true, 없으면 false 
+- T get() : 값이 존재하면 값을 반환, 값이 없으면 noSuchelementException
+- T orEle() : 값이 있으면 반환하고 없으면 기본값을 반환한다.
+
+5.4.4 첫번쨰 요소 찾기
+
+``` java
+
+List<Integer> somNumbrs = Arrays.asList(1,2,3,4,5);
+Optional<Integer> firstSquareDivisibleByThree = someNumbers.stream().map(n-> n*n)
+                                                .filter(n-> n%3 ==0)
+                                                .findFirst();
+
+```
+
+5.5 Reducing
+리듀스를 사용할때는 '메뉴의 모든 칼로리 합', '메누에서 칼로리가 가장 높은 요리는?' 같이 스트림 요소를 조합해서 더 복잡한 질의를 표현하는 방법이다. 
+5.5.1 요소의 합
+```java
+int sun =0;
+for(int x : numbers){
+    sum +=x;
+}
+```
+
+위의 for-each 루프 연산은 변수를 두개사용하여 반복적으로 더하는 코드이다. 이 코드를 리듀스 코드로 변환하자
+
+```java 
+List<Integer> numbers = Arrays.asList(4,5,3,9);
+int sum = numbers.stream().reduce(0, (a,b) -> a+b);
+```
+리듀스는 두개의 인수를 가진다.
+- 초깃값 0 
+- 두 요소를 조합해서 새로운 값을 만드는 BinaryOperator<T>. 예제는 람다 표현식을 사용했다. 
+reduce를 사용한 코드에서 첫번째 파라미터 a는 0 으로 초깃값을 사용했고 0 + b(4)를 한후에 순차적으로 +5 , +3 , +9를 한다. 
+위의 코드는 Integer class의 두 숫자를 더하는 정적 메서드를 사용하면 간결화 할 수 있다. 
+```java 
+List<Integer> numbers = Arrays.asList(4,5,3,9);
+int sum = numbers.stream().reduce(0, Integer::sum);
+```
+
+reduce에 초깃값을 받지 않도록 할 수 있는데 Optional 객체를 반환한다.
+```java 
+List<Integer> numbers = Arrays.asList(4,5,3,9);
+int sum = numbers.stream().reduce((a,b) -> (a+b));
+```
+Optional을 반환하는 이유는 스트림에 아무 요소도 없는 상황일때 초깃값이 없으므로 reduce는 합계를 반환라 수 없다. 따라서 합계가 없음을 가리킬수 있도록 Optinal 객체로 감싼 결과를 반환한다. 
