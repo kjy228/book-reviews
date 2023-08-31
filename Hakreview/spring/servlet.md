@@ -664,4 +664,5 @@ application.properties
 
 serverlservlet.session.tracking-mode = cookie
 ```
-
+### 정리
+Session은 최소한의 데이터만 보관해야한다. 보관한 데이터 용량 * 사용자수 로 세션의 메모리 사용량이 급하게 늘어나서 장애로 이어질 수 있다. (기본 30분)정도로 사용 
