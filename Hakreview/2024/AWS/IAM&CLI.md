@@ -37,3 +37,12 @@ identity and access management, global service
     ]
 }
 ```
+
+## IAM MFA (Multi Factor Authentication) (출제)
+- virtual MFA device :  
+    - google authenticator : 핸드폰에서만 가능
+    - Authy : 여러 장치에서 사용가능
+
+- universal 2nd Factor(U2F) security key : 물리장치로 YubiKey가 있다. 여러 루트계정과 IAM 사용자를 하나의 보안키에서 지원한다
+- Hardware key Fob MFA Device : gemalto의 물리 장치
+- Hardware Key Fob MFA Device for AWS GovGloud(US) : 미국 정부사이트의 인증시 사용 
