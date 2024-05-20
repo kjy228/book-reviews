@@ -46,3 +46,47 @@ identity and access management, global service
 - universal 2nd Factor(U2F) security key : 물리장치로 YubiKey가 있다. 여러 루트계정과 IAM 사용자를 하나의 보안키에서 지원한다
 - Hardware key Fob MFA Device : gemalto의 물리 장치
 - Hardware Key Fob MFA Device for AWS GovGloud(US) : 미국 정부사이트의 인증시 사용 
+
+
+## AWS CLI
+
+```
+aws configure
+- access key입력
+- secret key 입력
+
+aws iam list-users
+```
+output
+```
+{
+    "Users": [
+        {
+            "Path": "/",
+            "UserName": "devhak2",
+            "UserId": "AIDATTQD6ZNCI3ANUQZU6",
+            "Arn": "arn:aws:iam::248042670916:user/devhak2",
+            "CreateDate": "2024-05-20T05:22:06+00:00"
+        },
+        {
+            "Path": "/",
+            "UserName": "enzo",
+            "UserId": "AIDATTQD6ZNCIXBGAZNCM",
+            "Arn": "arn:aws:iam::248042670916:user/enzo",
+            "CreateDate": "2024-04-11T05:41:35+00:00",
+            "PasswordLastUsed": "2024-04-11T06:00:30+00:00"
+        },
+        {
+            "Path": "/",
+            "UserName": "itadmin",
+            "UserId": "AIDATTQD6ZNCGHM25ZK5I",
+            "Arn": "arn:aws:iam::248042670916:user/itadmin",
+            "CreateDate": "2023-04-16T13:35:25+00:00",
+            "PasswordLastUsed": "2023-04-17T14:30:06+00:00"
+        }
+    ]
+}
+
+```
+
+
