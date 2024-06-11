@@ -78,7 +78,7 @@ public class SecurityConfig {
     public UserDetailsService userDetailsService(){
         UserDetails user = User.withUsername("user1")
                 .password("{noop}1111")
-                .roles("ROLE_USER")
+                .roles("USER")//ROLE_ prefix는 자동으로 붙음
                 .build();
         return new InMemoryUserDetailsManager(user);
     }
@@ -86,3 +86,21 @@ public class SecurityConfig {
 }
 
 ```
+
+### UsernamePasswordAuthenticationFilter
+- AbstractAuthenticationProcessingFilter 클래스를 사용자의 자격 증명을 인증하는 기본 필터로 사용한다. 
+- UsernamePasswordAuthenticationFilter는 AbstractAuthenticationProcessingFilter를 확장한 클래스로서 HttpServletRequest에서 제출된 사요자 이름과 비밀번호로 부터 인증을 수행하낟. 
+- 인증 프로세스가 초기화 될대 로그인 페이지와 로그아웃 페이지 생성을 위한 DefaultLoginPageGeneratingFilter 및 DefaultLogoutPageGeneratingFilter가 초기화 된다.
+<img width="1125" alt="image" src="https://github.com/myounghaklee/book-reviews/assets/43670838/248cbed3-b66d-44d4-8e68-64d1a09f734d">
+
+
+### Http Basic 인증
+- 액세스 제어와 인증을 위한 프레임워크를 제공하며 가장 일반적인 인증방식은 Basic 인증 방식
+- 인증 프로토콜은 http 인증 헤더에 기술되어 있다.
+- Http Basic 인증은 반드시 https와 같이 TLS기슬과 함꼐 사용해야한다.
+
+<b>순서</b>
+1. 클라이언트는 인증정보 없이 서버로 접속 시도 
+2. 서버가 클라이언트에게 인증요구 보낼떄 401 응답과 함꼐 WWW-Authenticat헤더를 기술해어 realm(보안영역)과 baxic 인증방법을 보냄
+3. 클라이언트가 서버로 접속할때 base64로 username, password를 인코딩하고 Authroization헤더에 담아서 요청
+4. 성공적으로 완료되면 정상적인 상태코드를 반환
