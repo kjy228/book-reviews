@@ -101,6 +101,29 @@ public class SecurityConfig {
 
 <b>순서</b>
 1. 클라이언트는 인증정보 없이 서버로 접속 시도 
-2. 서버가 클라이언트에게 인증요구 보낼떄 401 응답과 함꼐 WWW-Authenticat헤더를 기술해어 realm(보안영역)과 baxic 인증방법을 보냄
+2. 서버가 클라이언트에게 인증요구 보낼떄 401 응답과 함꼐 WWW-Authenticat헤더를 기술해어 realm(보안영역)과 basic 인증방법을 보냄
 3. 클라이언트가 서버로 접속할때 base64로 username, password를 인코딩하고 Authroization헤더에 담아서 요청
 4. 성공적으로 완료되면 정상적인 상태코드를 반환
+
+### BasicAuthenticatinoFilter
+- 기본 인증 서비스를 제공하는데 사용된다. 
+- BasicAuthenticationConverter를 사용해서 요청 헤더에 기술된 인증 정보의 유효성을 체크하며 Base64인코딩된 username, password를 추출한다. 
+- 인증 이후 세션 사용하는 경우와 사용하지 않는 경우에 따라 처리되는 흐름에 차이가 있으며 세션을 사용하는 경우 매 요청마다 인증과정을 거치지 않으나 세션을 사용하지 않는 경우 매 요청마다 인증과정을 거쳐야 한다.
+
+
+### RememberMe 인증
+- 사용자가 웹 사이트나 애플리케이션에 로그인할때 자동으로 인증정보 기억
+- UsernamePasswordAuthenticationFilter와 함께 사용되며 AbstractAuthenticationProcessingFilter 슈퍼클래스에서 훅을 통해 구현
+    - 인증 성공시 : RememberMeServices.loginSuccess()를 통해 Rememberme토큰을 생성하고 쿠키로 전달
+    - 인증 실패시 : RememberMeServices.loginFail()을 통해 쿠키를 지운다
+    - LogoutFilter와 연계해서 로그아웃시 쿠키를 지운다
+
+<b>토큰 생성</b>
+- 기본적으로 암호화된 토큰으로 생성되며 쿠키를 보내고, 후에 세션에서 이 쿠키를 감지하여 자동 로그인이 이루어지는 방식으로 달성된다.
+<b>RememberMeServices 구현체</b>
+- TokenBasedRememberMeServices : 쿠키 기반 토큰의 보안을 위해 해싱을 사용한다.
+- PersistentTokneBasedRememberMeServices : 생성된 초큰을 저장하기 위해 데이터베이스나 영구 저장매체 사용
+- 두 구현 모두 사용자의 정보를 검색하기 위한 UserDetailservice 필요
+
+### RememberMeAuthenticationFilter
+- SecurityContextHolder에 Authentication이 포함되지 않은경우 실행되는 필터
