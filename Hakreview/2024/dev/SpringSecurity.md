@@ -127,3 +127,4 @@ public class SecurityConfig {
 
 ### RememberMeAuthenticationFilter
 - SecurityContextHolder에 Authentication이 포함되지 않은경우 실행되는 필터
+- 세션이 만료되엇거나 어플리케이션 종료로인해 인증 상태가 소멸된 경우 토큰 기반 인증을 상요해 유효성 검사하고 토큰이 검증되면 자동 로그인 처리 수행
