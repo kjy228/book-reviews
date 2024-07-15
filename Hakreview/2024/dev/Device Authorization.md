@@ -21,15 +21,16 @@ device authorization은 디바이스로 사용자 정보를 입력하지 못할�
  
 
 ## device_authorization 응답
-
+```json
 {
     "user_code": "XZGX-WHKK",
     "device_code": "XjcPAPR5054FdhL7jHP19eS2SIdX5_yHhpj1jH8Hbz3sGZe0S_90RvwNqn2giDazYhYMD_iLWHm67uSCv7kxQnW_kzPKDV5YWE_vWdo0QdeGh8iPMsCLDeVMYuo4T139",
     "verification_uri_complete": "http://localhost:8080/device-verification?user_code=XZGX-WHKK",
     "verification_uri": "http://localhost:8080/device-verification",
     "expires_in": 300
-}%
-위의 verification_uri로 접속하여 userCode 입력
+}
+```
+위의 verification_uri로 접속하여 userCode 입력(그동안 device는 `/token` endpoint polling)
 
  
 Flow 참고할만한 예제 : 블라인드 어플 web login
